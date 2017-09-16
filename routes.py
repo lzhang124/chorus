@@ -3,10 +3,18 @@ from app import app
 
 from helpers.mongo import get_songs, auth, update_song, get_song
 
+def auth_decorate(fn):
+	def enforce_state():
+		auth()
+		fn()
+	return enforce_state
+
+@auth_decorate
 @app.route('/')
 def index_view():
     return render_template('index.html')
 
+@auth_decorate
 @app.route('/api/get_random')
 def get_random():
 	output = get_song(request.remote_addr)
@@ -16,6 +24,7 @@ def get_random():
 		response=output
 	)
 
+@auth_decorate
 @app.route('/api/update', methods=['POST',])
 def update():
 	content = request.json
