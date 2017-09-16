@@ -5,7 +5,7 @@ from helpers.mongo import get_song, auth, update_song
 
 @app.route('/')
 def index_view():
-  return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/api/get_song')
 def song_id():
