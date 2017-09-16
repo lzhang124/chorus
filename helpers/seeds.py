@@ -3,6 +3,9 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client['app']
 
+db.songs.remove()
+db.users.remove()
+
 songs = []
 N_SONGS = 3
 for j in range(N_SONGS):

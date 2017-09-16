@@ -1,3 +1,6 @@
+var N_ROWS = 25
+var N_COLS = 16
+
 var width = 580;
 var height = 760;
 
@@ -60,10 +63,34 @@ function playMeasure() {
 }
 
 function playSong() {
-  
+
 }
 
 var synth = new Tone.PolySynth().toMaster()
 
-// To play a note write the following:
 // synth.triggerAttackRelease('C4', '8n')
+
+function encode(notes) {
+  enc_notes = new Array(N_COLS);
+  for (x in notes) {
+    value = 0;
+    for (i = 0; i < notes[x].length; i++) {
+      value += Math.pow(2, N_ROWS - 1 - notes[x][i]);
+    }
+    enc_notes[x] = value;
+  }
+  return enc_notes;
+}
+
+function decode(enc_notes) {
+  var notes = {};
+  for (x = 0; x < N_COLS; x++) {
+    binary = enc_notes[x].toString(2);
+    ys = [];
+    for (y = 0; y < binary.length; y++) {
+      if (binary[y] === '1') ys.push(N_ROWS - binary.length + y);
+    }
+    notes[x] = ys;
+  }
+  return notes;
+}
