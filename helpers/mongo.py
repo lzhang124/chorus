@@ -10,8 +10,6 @@ import random
 client = MongoClient('localhost', 27017)
 db = client['app']
 
-update_song('59bd87e01265ea580c37a8fd', 123)
-
 def update_song(user_id, measure, song_id=None):
     measure_num = 0
     if not song_id:
@@ -25,19 +23,17 @@ def update_song(user_id, measure, song_id=None):
     db['users'].find_one({'_id': ObjectId(user_id)})["contributed"][song_id] = measure
 
 
-def get_song(user_id):
-    user_contributed = db['users'].find_one({'_id': user_id})["contributed"]
-    return random.choice([song['_id'] for song in db['songs'] if song['_id'] not in user_contributed.values()])
+def get_song(ip):
+    user_contributed = db['users'].find_one({'ip': ip})["contributed"]
+    valid_songs = [song['_id'] for song in db['songs'].find({}) if song['_id'] not in user_contributed.values()]
+    return random.choice(valid_songs if valid_songs != [] else [-1,])
 
 def auth(ip):
 	exists = db['users'].find_one({
 		'ip': ip
 	})
-	if exists:
-		uiud = exists['_id']
-	else:
+	if not exists:
 		uiud = db['users'].insert({
 			'ip': ip,
-			'contributed' {}
+			'contributed': {}
 		})
-	return 0
