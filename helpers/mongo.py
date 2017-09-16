@@ -25,3 +25,16 @@ def update_song(user_id, measure, song_id=None):
 def get_song(user_id):
     user_contributed = db['users'].find_one({'_id': user_id})["contributed"]
     return random.choice([song['_id'] for song in db['songs'] if song['_id'] not in user_contributed.values()])
+
+def auth(ip):
+	exists = db['users'].find_one({
+		'ip': ip
+	})
+	if exists:
+		uiud = exists['_id']
+	else:
+		uiud = db['users'].insert({
+			'ip': ip,
+			'contributed' {}
+		})
+	return 0
