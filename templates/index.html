@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>chorus</title>
-  <link rel="stylesheet" type="text/css" href="static/css/style.css"></link>
-  <script type="text/javascript" src="static/js/Tone.min.js"></script>
-  <script type="text/javascript" src="static/js/main.js"></script>
-</head>
+{% include 'head.html' %}
 <body>
-  Hello World!
+  <div class="container">
+	<h3 class="title">Chorus</h3>
+	<div id="dots"></div>
+  </div>
 </body>
+<script type="text/javascript" src="static/js/Tone.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
 </html>
