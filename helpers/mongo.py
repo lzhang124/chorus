@@ -4,6 +4,7 @@ username - String
 contributed: dict(song_id: measure number (indexed from 0))
 """
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import random
 
 client = MongoClient('localhost', 27017)
@@ -14,7 +15,7 @@ def update_song(ip, measure, song_id):
     if not song_id:
         song_id = db['songs'].insert_one({"measures": [measure], "num_measures": 1}).inserted_id
     else:
-        measure_num = db['songs'].find_one_and_update({"_id": song_id},
+        measure_num = db['songs'].find_one_and_update({"_id": ObjectId(song_id)},
                                         {'$inc': {'num_measures': 1},
                                          '$push': {'measures': measure}})['num_measures']
 
@@ -28,6 +29,8 @@ def get_song(ip):
     if choice != -1:
     	choice = str(choice)
     return choice
+
+    db['users'].find_one({'_id': ObjectId(user_id)})["contributed"][song_id] = measure
 
 def auth(ip):
 	exists = db['users'].find_one({
