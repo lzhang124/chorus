@@ -54,3 +54,10 @@ function dotClick(d) {
   var current = d3.select(this);
   current.classed("dot-selected", !current.classed("dot-selected"));
 }
+
+
+var synth = new Tone.PolySynth().toMaster()
+
+// To play a note write the following:
+// synth.triggerAttackRelease('C4', '8n')
+
