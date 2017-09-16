@@ -18,7 +18,6 @@ def update_song(ip, measure, song_id):
         measure_num = db['songs'].find_one_and_update({"_id": ObjectId(song_id)},
                                         {'$inc': {'num_measures': 1},
                                          '$push': {'measures': measure}})['num_measures']
-    import pdb; pdb.set_trace()
     # asumes "contributed" is another collection
     db['users'].find_one_and_update({'ip': ip}, { '$set': {"contributions." + song_id: measure}})
 
