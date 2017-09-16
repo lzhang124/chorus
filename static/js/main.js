@@ -58,17 +58,12 @@ function dotClick(d) {
   current.classed("dot-selected", !current.classed("dot-selected"));
 }
 
-function playMeasure() {
 
-}
-
-function playSong() {
-
-}
+/////////////////////////////////////////////////
+// MUSIC STUFF
+/////////////////////////////////////////////////
 
 var synth = new Tone.PolySynth().toMaster()
-
-// synth.triggerAttackRelease('C4', '8n')
 
 function encode(notes) {
   enc_notes = new Array(N_COLS);
@@ -93,4 +88,12 @@ function decode(enc_notes) {
     notes[x] = ys;
   }
   return notes;
+}
+
+function playMeasure() {
+
+}
+
+function playSong() {
+
 }
