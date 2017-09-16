@@ -5,4 +5,4 @@ Collaborative music creation.
 `pip install -r requirements.txt`
 
 ## Running app
-`FLASK_APP=app.py flask run`
+`python3 app.py`
