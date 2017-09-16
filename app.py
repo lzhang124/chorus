@@ -2,6 +2,7 @@ from flask import Flask
 from pymongo import MongoClient
 
 app = Flask(__name__)
+app.TEMPLATES_AUTO_RELOAD = True
 
 from routes import *
 
