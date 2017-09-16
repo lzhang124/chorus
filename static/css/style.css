@@ -1,9 +1,7 @@
 body {
 	font-family: 'Lato', sans-serif;
-	background: #0575e6; /* fallback for old browsers */
-  	background: -webkit-linear-gradient(to right, #0575e6, #021b79); /* Chrome 10-25, Safari 5.1-6 */
-  	background: linear-gradient(to right, #0575e6, #021b79); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	color: #eceff1;
+	background: #51b2f7;
+	color: #ececec;
 }
 
 .container {
@@ -17,14 +15,14 @@ body {
 
 .dot {
 	fill: rgba(0, 0, 0, 0);
-	stroke: #eceff1;
+	stroke: #ececec;
 	stroke-width: 1px;
 }
 
 .dot-selected {
-	fill: #eceff1;
+	fill: #ececec;
 }
 
 .dot-hover {
-	fill: #eceff1 !important;
+	fill: #ececec !important;
 }

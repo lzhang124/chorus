@@ -5,7 +5,7 @@ from helpers.mongo import get_songs, auth, update_song, get_song
 
 @app.route('/')
 def index_view():
-  return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/api/get_random')
 def get_random():
