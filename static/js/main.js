@@ -73,25 +73,25 @@ var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
 
 function encode(notes) {
   enc_notes = new Array(N_COLS);
-  for (x in notes) {
+  for (i = 0; i < N_COLS; i++) {
     value = 0;
-    for (i = 0; i < notes[x].length; i++) {
-      value += Math.pow(2, N_ROWS - 1 - notes[x][i]);
+    for (j = 0; j < notes[i].length; j++) {
+      value += Math.pow(2, N_ROWS - 1 - notes[i][j]);
     }
-    enc_notes[x] = value;
+    enc_notes[i] = value;
   }
   return enc_notes;
 }
 
 function decode(enc_notes) {
-  var notes = {};
-  for (x = 0; x < N_COLS; x++) {
-    binary = enc_notes[x].toString(2);
-    ys = [];
-    for (y = 0; y < binary.length; y++) {
-      if (binary[y] === '1') ys.push(N_ROWS - binary.length + y);
+  var notes = [];
+  for (i = 0; i < N_COLS; i++) {
+    binary = enc_notes[i].toString(2);
+    indices = [];
+    for (j = 0; j < binary.length; j++) {
+      if (binary[j] === '1') indices.push(N_ROWS - binary.length + j);
     }
-    notes[x] = ys;
+    notes.push(indices);
   }
   return notes;
 }
