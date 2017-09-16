@@ -55,9 +55,15 @@ function dotClick(d) {
   current.classed("dot-selected", !current.classed("dot-selected"));
 }
 
+function playMeasure() {
+
+}
+
+function playSong() {
+  
+}
 
 var synth = new Tone.PolySynth().toMaster()
 
 // To play a note write the following:
 // synth.triggerAttackRelease('C4', '8n')
-

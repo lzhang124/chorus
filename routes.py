@@ -31,4 +31,3 @@ def update():
 		return jsonify(
 			code=code
 		)
-

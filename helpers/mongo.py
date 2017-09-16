@@ -46,5 +46,3 @@ def get_songs():
 
 def get_users():
 	return db['users'].find({})
-
-auth('127.0.0.1')

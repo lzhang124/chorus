@@ -4,7 +4,17 @@
 <body>
   <div class="container">
 	<h3 class="title">Chorus</h3>
-	<div id="dots"></div>
+  <div id="buttons" class="container">
+    <div class="row">
+      <div class="col s5 push-s1">
+        <div class="col-content" onclick="return playMeasure()"><button class="waves-effect waves-light btn" >Play Measure</button></div>
+      </div>
+      <div class="col s5 push-s1">
+        <div class="col-content" onclick="return playSong()"><button class="waves-effect waves-light btn" >Play Song</button></div>
+      </div>
+    </div>
+  </div>
+	<div class="container" id="dots"></div>
   </div>
 </body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
