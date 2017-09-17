@@ -9,30 +9,30 @@ def index_view():
 
 @app.route('/api/get_random')
 def get_random():
-	ip = request.remote_addr
-	auth(ip)
-	output, info = get_song(ip)
-	success = 0 if output != -1 else 1
-	return jsonify(
-		code=success,
-		response=output,
-		info=info
-	)
+    ip = request.remote_addr
+    auth(ip)
+    output, info = get_song(ip)
+    success = 0 if output != -1 else 1
+    return jsonify(
+        code=success,
+        response=output,
+        info=info
+    )
 
 @app.route('/api/update', methods=['POST',])
 def update():
-	ip = request.remote_addr
-	auth(ip)
-	content = request.json
-	_id = None
-	if 'song_id' in content.keys():
-		_id = content['song_id']
-	try:
-		update_song(ip, content['measure'], _id)
-		code = 0
-	except:
-		code = 1
-	finally:
-		return jsonify(
-			code=code
-		)
+    ip = request.remote_addr
+    auth(ip)
+    content = request.json
+    _id = None
+    if 'song_id' in content.keys():
+        _id = content['song_id']
+    try:
+        update_song(ip, content['measure'], _id)
+        code = 0
+    except:
+        code = 1
+    finally:
+        return jsonify(
+            code=code
+        )
