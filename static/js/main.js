@@ -133,7 +133,7 @@ function drawRect(selection) {
                 y = indices.y
                 rect = svg.append("rect")
                           .attr("x", 15 + x * xspace)
-                          .attr("y", 10 + y * yspace)
+                          .attr("y", 9.5 + y * yspace)
                           .style("fill", "#ececec");
                 synth.triggerAttack(NOTES[y]);
             })
@@ -152,7 +152,7 @@ function drawRect(selection) {
               if (keep) {
                 var curr = d3.mouse(this);
                 rect.attr("width", Math.abs(curr[0] - point[0]))
-                    .attr("height", r*2);
+                    .attr("height", r*2 + 1);
                 if (curr[0] - point[0] < 0) {
                   rect.attr("x", curr[0]);
                 }
