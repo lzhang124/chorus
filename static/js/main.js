@@ -69,7 +69,9 @@ var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
              'E3', 'D#3', 'D3', 'C#3', 'C3']
 
-// synth.triggerAttackRelease('C4', '8n')
+NOTES = NOTES.reverse();
+
+// synth.triggerAttackRelease(['C4', 'C3'], '8n')
 
 function encode(notes) {
   enc_notes = new Array(N_COLS);
@@ -96,8 +98,22 @@ function decode(enc_notes) {
   return notes;
 }
 
-function playMeasure() {
+var selected = [[12, 16, 19], [7, 11, 14, 17], [0, 7, 12, 16]];
+//selected = selected.reverse()
 
+function playCurrentMeasure() {
+  playMeasure(selected);
+}
+
+function playMeasure(notes) {
+  for (var i = 0; i < notes.length; i++) {
+    let a = [];
+    for (var j = 0; j < notes[i].length; j++) {
+      a.push(NOTES[notes[i][j]])
+    }
+    let temp = (i + 1).toString();
+    synth.triggerAttackRelease(a, '8n', '+(8n * ' + temp + ')');
+  }
 }
 
 function playSong(enc_measures, notes) {
@@ -105,4 +121,8 @@ function playSong(enc_measures, notes) {
     playMeasure(decode(enc_measures[i]));
   }
   playMeasure(notes);
+}
+
+function playSongHandler() {
+  playSong(enc_measures, selected);
 }
