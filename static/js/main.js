@@ -35,6 +35,17 @@ window.onload = function() {
 // Front end
 /////////////////////////////////////////////////
 
+var deletedRect = false;
+
+function indexOfCustom (parentArray, searchElement) {
+    for ( var i = 0; i < parentArray.length; i++ ) {
+        if ( parentArray[i][0] == searchElement[0] || parentArray[i][1] == searchElement[1] ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 var div = d3.select("#dots");
 
 var svg = div.append("svg")
@@ -81,8 +92,7 @@ var dots = cols.selectAll(".dot")
                .attr("cy", function(d) { return d.y; })
                .attr("r", r)
                .on('mouseover', dotMouseover)
-               .on('mouseout', dotMouseout)
-               .on('click', dotClick);
+               .on('mouseout', dotMouseout);
 
 svg.call(drawRect);
 
@@ -94,21 +104,6 @@ function dotMouseout(d) {
   d3.select(this).classed("dot-hover", false);
 }
 
-function dotClick(d, i) {
-  var current = d3.select(this);
-  current.classed("dot-selected", !current.classed("dot-selected"));
-
-  //insert or delete if necessary
-  var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
-  if (exists.length === 0) {
-    selected[d.row].push([d.col, d.col]);
-  } else {
-    var selectIndex = selected[d.row].indexOf([d.col, d.col]);
-    if (selectIndex > -1) {
-      selected[d.row].splice(selectIndex, 1);
-    }
-  }
-}
 
 function invert(point) {
   var x = point[0],
@@ -135,16 +130,34 @@ function drawRect(selection) {
                         .attr("x", 15 + x * xspace)
                         .attr("y", 9.5 + y * yspace)
                         .style("fill", "#ececec");
+              if (!deletedRect) {
+                var circle = d3.select(".y-" + x + " .x-" + y);
+                circle.classed("dot-selected", !circle.classed("dot-selected"));
+              }
               synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
-              keep = false;
-              rect.attr("width", Math.abs(currx - x) * xspace)
-                  .on("click", rectClick);
-              if (selected[y].indexOf([x, currx]) === -1) {
-                selected[y].push([x, currx]);
-              }
-              synth.triggerRelease(NOTES[y]);
+                keep = false;
+                if (!deletedRect) {
+                  var inverted = invert(d3.mouse(this));
+                  currx = inverted.x;
+                  if (rect) {
+                    rect.attr("width", Math.abs(currx - x) * xspace)
+                        .on("mousedown", rectClick);
+                  }
+                  var range = [Math.min(x, currx), Math.max(x, currx)];
+                  var index = indexOfCustom(selected[inverted.y], range);
+
+                  if (index === -1) {
+                    selected[y].push(range);
+                  } else if (currx === x) {
+                    // delete if clicking on a circle that is already filled
+                    selected[y].splice(index, 1);
+                  }
+                } else {
+                  deletedRect = false;
+                }
+                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -156,12 +169,13 @@ function drawRect(selection) {
                 if (curr[0] - point[0] < 0) {
                   rect.attr("x", 15 + currx * xspace);
                 }
-                var circle_class = ".y-" + currx + " .x-" + y;
-                d3.select(circle_class).classed("dot-selected", true);
+                if (currx !== x) {
+                  var circle_class = ".y-" + currx + " .x-" + y;
+                  d3.select(circle_class).classed("dot-selected", true);
+                }
               }
             })
 }
-
 
 function clearNotes() {
   svg.selectAll(".dot-selected")
@@ -187,8 +201,11 @@ function rectClick() {
       var circle_class = ".y-" + i + " .x-" + inverted.y;
       d3.select(circle_class).classed("dot-selected", false);
     }
-    index = selected[inverted.y].indexOf(bar);
+
+    index = indexOfCustom(selected[inverted.y], bar);
     selected[inverted.y].splice(index, 1);
+
+    deletedRect = true;
   }
 }
 
