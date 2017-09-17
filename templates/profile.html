@@ -9,9 +9,11 @@
         <div class="col s3" style="text-align: left;">
           <ul class="collection with-header" style="border: 0px;">
             <li class="collection-header" style="background: #354554"><h4>Songs</h4></li>
-            {% for item in contributed %}
-              <li class="collection-item" style="background: #354554; border-bottom: 0;"><a href="#one" style="color: #eeeeee">{{ item[2] }}</a></li>
-            {% endfor %}
+            <div style="overflow: auto; height: 100vh;">
+              {% for item in contributed %}
+                <li class="collection-item" style="background: #354554; border-bottom: 0;"><a href="#one" style="color: #eeeeee">{{ item[2] }}</a></li>
+              {% endfor %}
+            </div>
           </ul>
         </div>
       </div>
