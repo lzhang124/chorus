@@ -17,7 +17,7 @@ var synth = new Tone.PolySynth().toMaster()
 var songId = "";
 var encMeasures = 0;
 
-function getSong() {
+function getSong() {                     
   $.get({
     url: "/api/get_random",
     success: function(resp) {
@@ -223,4 +223,29 @@ function playMeasureHandler() {
 
 function playSongHandler() {
   playSong(encMeasures, selected);
+}
+
+/////////////////////////////////////////////////
+// Update Song
+/////////////////////////////////////////////////
+
+function updateSong() {
+  data = {
+    "measure": encode(selected),
+  }
+
+  if (songId != "") {
+    data.push({
+      key: "song_id",
+      value: songId
+    })    
+  }
+  $.post({
+    url: '/api/update',
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    sucess: function(){
+      alert(0);
+    }
+  });
 }
