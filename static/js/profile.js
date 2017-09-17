@@ -79,7 +79,6 @@ function lngLatToArc(d, sourceName, targetName, bend){
     var dx = targetX - sourceX,
         dy = targetY - sourceY,
         dr = Math.sqrt(dx * dx + dy * dy)*bend;
-
     // To avoid a whirlpool effect, make the bend direction consistent regardless of whether the source is east or west of the target
     var west_of_source = (targetX - sourceX) < 0;
     if (west_of_source) return "M" + targetX + "," + targetY + "A" + dr + "," + dr + " 0 0,1 " + sourceX + "," + sourceY;
