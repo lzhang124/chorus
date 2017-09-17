@@ -52,6 +52,10 @@ def auth(ip):
             'contributed': {}
         })
 
+def get_locations(song_id):
+  out = db.songs.find_one({'_id': ObjectId(song_id)})
+  return [] if not out else out['locations']
+
 def get_songs():
     return db['songs'].find({})
 
