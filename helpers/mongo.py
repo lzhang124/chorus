@@ -17,7 +17,7 @@ def update_song(ip, measure, song_id):
     if not song_id:
         song_id = db['songs'].insert_one({"measures": [measure], "locations": [coords], "num_measures": 1}).inserted_id
     else:
-        measure_num = db['songs'].find_one_and_update({"_id": ObjectId(song_id)}, {
+        measure_num = db['songs'].find_one_and_update({"_id": song_id}, {
                                           '$inc': {'num_measures': 1},
                                           '$push': {
                                             'measures': measure,
@@ -27,10 +27,12 @@ def update_song(ip, measure, song_id):
     # asumes "contributed" is another collection
     db['users'].find_one_and_update({'ip': ip}, { '$set': {"contributed." + str(song_id): measure_num}})
 
+
 def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]
     if len(user_contributed) == 0:
         return ("", [])
+    import pdb; pdb.set_trace()
     song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if song['_id'] not in user_contributed.keys()]
     valid_song_ids = []
     id_to_measure = {}
@@ -53,7 +55,7 @@ def auth(ip):
         })
 
 def get_locations(song_id):
-  out = db.songs.find_one({'_id': ObjectId(song_id)})
+  out = db.songs.find_one({'_id': song_id})
   return [] if not out else out['locations']
 
 def get_songs():
