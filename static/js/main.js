@@ -140,8 +140,8 @@ function drawRect(selection) {
               rect = svg.append("rect")
                         .attr("x", 5 + x * XSPACE)
                         .attr("y", 9.5 + y * YSPACE)
-                        .attr("rx", 10)
-                        .attr("ry", 10)
+                        .attr("rx", R)
+                        .attr("ry", R)
                         .style("fill", "#ececec");
               if (!deletedRect) {
                 var circle = d3.select(".y-" + x + " .x-" + y);
@@ -155,7 +155,7 @@ function drawRect(selection) {
                   var inverted = invert(d3.mouse(this));
                   currx = inverted.x;
                   if (rect) {
-                    rect.attr("width", Math.abs(currx - x) * XSPACE + 20)
+                    rect.attr("width", Math.abs(currx - x) * XSPACE + R*2)
                         .on("mousedown", rectClick);
                   }
                   var range = [Math.min(x, currx), Math.max(x, currx)];
@@ -177,8 +177,8 @@ function drawRect(selection) {
                 var curr = d3.mouse(this);
                 var inverted = invert(curr);
                 currx = inverted.x
-                rect.attr("width", Math.abs(currx - x) * XSPACE + 20)
-                    .attr("height", r*2 + 1);
+                rect.attr("width", Math.abs(currx - x) * XSPACE + R*2)
+                    .attr("height", R*2 + 1);
                 if (curr[0] - point[0] < 0) {
                   rect.attr("x", 5 + currx * XSPACE);
                 }
@@ -275,7 +275,7 @@ function drawCantEdit(id, selected) {
                    .classed("dot-not-visible", true)
                    .attr("cx", function(d) { return d.x; })
                    .attr("cy", function(d) { return d.y; })
-                   .attr("r", r)
+                   .attr("r", R)
                    .classed("dot-selected", function(d) { return d.selected; });
 
     for (var i = 0; i < rects.length; i++) {
@@ -283,10 +283,10 @@ function drawCantEdit(id, selected) {
         rect = svg.append("rect")
           .attr("x", 5 + currRect.start * XSPACE)
           .attr("y", 9.5 + currRect.row * YSPACE)
-          .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 20)
-          .attr("height", 2*r + 1)
-          .attr("rx", 10)
-          .attr("ry", 10)
+          .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 2*R)
+          .attr("height", 2*R + 1)
+          .attr("rx", R)
+          .attr("ry", R)
           .style("fill", "#ececec");
     }
 };
