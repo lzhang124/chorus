@@ -46,6 +46,10 @@ def get_song(ip):
     choice = str(choice)
     return (choice, to_return)
 
+def get_song_by_id(song_id):
+    song = db['songs'].find_one({'_id': ObjectId(str(song_id))})
+    return song['measures']
+
 def auth(ip):
     exists = db['users'].find_one({
         'ip': ip
