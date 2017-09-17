@@ -75,25 +75,25 @@ NOTES = NOTES.reverse();
 
 function encode(notes) {
   enc_notes = new Array(N_COLS);
-  for (x in notes) {
+  for (i = 0; i < N_COLS; i++) {
     value = 0;
-    for (i = 0; i < notes[x].length; i++) {
-      value += Math.pow(2, N_ROWS - 1 - notes[x][i]);
+    for (j = 0; j < notes[i].length; j++) {
+      value += Math.pow(2, N_ROWS - 1 - notes[i][j]);
     }
-    enc_notes[x] = value;
+    enc_notes[i] = value;
   }
   return enc_notes;
 }
 
 function decode(enc_notes) {
-  var notes = {};
-  for (x = 0; x < N_COLS; x++) {
-    binary = enc_notes[x].toString(2);
-    ys = [];
-    for (y = 0; y < binary.length; y++) {
-      if (binary[y] === '1') ys.push(N_ROWS - binary.length + y);
+  var notes = [];
+  for (i = 0; i < N_COLS; i++) {
+    binary = enc_notes[i].toString(2);
+    indices = [];
+    for (j = 0; j < binary.length; j++) {
+      if (binary[j] === '1') indices.push(N_ROWS - binary.length + j);
     }
-    notes[x] = ys;
+    notes.push(indices);
   }
   return notes;
 }
@@ -116,6 +116,9 @@ function playMeasure(notes) {
   }
 }
 
-function playSong() {
-
+function playSong(enc_measures, notes) {
+  for (i = 0; i < enc_measures.length; i++) {
+    playMeasure(decode(enc_measures[i]));
+  }
+  playMeasure(notes);
 }
