@@ -16,9 +16,9 @@ body {
 
 #dots-containers {
 	display: flex;
-	overflow x: scroll;
+	overflow-x: scroll;
 	width: 100%;
-	text align: center;
+	text-align: center;
 }
 
 #lines {
