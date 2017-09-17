@@ -35,6 +35,15 @@ window.onload = function() {
 // Front end
 /////////////////////////////////////////////////
 
+function indexOfCustom (parentArray, searchElement) {
+    for ( var i = 0; i < parentArray.length; i++ ) {
+        if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 var div = d3.select("#dots");
 
 var svg = div.append("svg")
@@ -81,8 +90,7 @@ var dots = cols.selectAll(".dot")
                .attr("cy", function(d) { return d.y; })
                .attr("r", r)
                .on('mouseover', dotMouseover)
-               .on('mouseout', dotMouseout)
-               .on('click', dotClick);
+               .on('mouseout', dotMouseout);
 
 svg.call(drawRect);
 
@@ -92,22 +100,6 @@ function dotMouseover(d) {
 
 function dotMouseout(d) {
   d3.select(this).classed("dot-hover", false);
-}
-
-function dotClick(d, i) {
-  var current = d3.select(this);
-  current.classed("dot-selected", !current.classed("dot-selected"));
-
-  //insert or delete if necessary
-  var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
-  if (exists.length === 0) {
-    selected[d.row].push([d.col, d.col]);
-  } else {
-    var selectIndex = selected[d.row].indexOf([d.col, d.col]);
-    if (selectIndex > -1) {
-      selected[d.row].splice(selectIndex, 1);
-    }
-  }
 }
 
 function invert(point) {
@@ -138,13 +130,26 @@ function drawRect(selection) {
               synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
-              keep = false;
-              rect.attr("width", Math.abs(currx - x) * xspace)
-                  .on("click", rectClick);
-              if (selected[y].indexOf([x, currx]) === -1) {
-                selected[y].push([x, currx]);
-              }
-              synth.triggerRelease(NOTES[y]);
+                keep = false;
+                var inverted = invert(d3.mouse(this));
+                currx = inverted.x;
+                if (rect) {
+                  rect.attr("width", Math.abs(currx - x) * xspace)
+                      .on("click", rectClick);
+                }
+                var index = indexOfCustom(selected[inverted.y], [x, currx]);
+
+                if (index === -1) {
+                  selected[y].push([x, currx]);
+                } else if (currx === x) {
+                  //delete if clicking on a circle that is already filled
+                  selected[y].splice(index, 1);
+                }
+                if (currx === x) {
+                  var circle = d3.select(".y-" + currx + " .x-" + inverted.y);
+                  circle.classed("dot-selected", !circle.classed("dot-selected"));
+                }
+                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -187,7 +192,7 @@ function rectClick() {
       var circle_class = ".y-" + i + " .x-" + inverted.y;
       d3.select(circle_class).classed("dot-selected", false);
     }
-    index = selected[inverted.y].indexOf(bar);
+    index = indexOfCustom(selected[inverted.y], bar);
     selected[inverted.y].splice(index, 1);
   }
 }
