@@ -9,6 +9,7 @@ var map = new Datamap({element: document.getElementById('map'), scope: 'world',
                         borderColor: '#515152',
                         popupOnHover: false,
                       }});
+var encMeasures;
 
 $('.song').click(function(ev) {
     songId = $(this).attr('data');
@@ -34,6 +35,7 @@ $('.song').click(function(ev) {
             all_data.push(decode(resp.info[i]));
           }
           draw(all_data);
+          encMeasures = all_data;
         }
     });
 });
@@ -76,7 +78,7 @@ function draw(encMeasures) {
 }
 
 function drawCantEdit(id, selected) {
-    var HEIGHT = 200, 
+    var HEIGHT = 200,
         WIDTH = 120,
         R = 3,
         XSPACE = 7,
@@ -147,4 +149,37 @@ function drawCantEdit(id, selected) {
 }
 
 function renderView (resp) {
+}
+
+function playMeasure(notes, offset) {
+  Tone.Transport.clear();
+  for (var i = 0; i < notes.length; i++) {
+    for (var j = 0; j < notes[i].length; j++) {
+      let start = notes[i][j][0];
+      let end = notes[i][j][1];
+      let duration = end - start + 1;
+      let note = NOTES[i];
+      Tone.Transport.schedule(function(time) {
+        synth.triggerAttackRelease(note, '8n * ' + duration.toString(), time);
+      }, '+8n * ' + start.toString() + offset);
+    }
+  }
+}
+
+function playSong(encMeasures) {
+  Tone.Transport.clear();
+  var offset = 0;
+  for (var i = 0; i < encMeasures.length; i++) {
+    var result = " + 0";
+    if (i != 0) {
+      result = "+ " + "(8n * " + offset.toString() + ")";
+    }
+    playMeasure(decode(encMeasures[i]), result);
+    offset += N_COLS
+  }
+}
+
+function playSongHandler() {
+  playSong(encMeasures);
+  Tone.Transport.start('+0.01');
 }
