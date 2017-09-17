@@ -6,9 +6,9 @@ var HEIGHT = 780;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
-             'E3', 'D#3', 'D3', 'C#3', 'C3']
+             'E3', 'D#3', 'D3', 'C#3', 'C3'];
 
-var synth = new Tone.PolySynth().toMaster()
+var synth = new Tone.PolySynth().toMaster();
 
 /////////////////////////////////////////////////
 // Load song
@@ -21,8 +21,16 @@ function getSong() {
   $.get({
     url: "/api/get_random",
     success: function(resp) {
-      songId = resp.response
-      encMeasures = resp.info
+      songId = resp.response;
+      encMeasures = resp.info;
+
+      var all_data = [];
+      
+      for (var i = 0; i < resp.info.length; i++) {
+        all_data.push(decode(resp.info[i]));
+      }
+
+      drawExisting(all_data);
     }
   });
 }
@@ -232,14 +240,18 @@ function drawCantEdit(id, selected) {
       }
     }
 
+    console.log(data); 
+
     //mark all the dots first
-    rects = []
+    var rects = []
     for (var row = 0; row < selected.length; row++) {
       for (var i = 0; i < selected[row].length; i++) {
         elem = selected[row][i];
-        start = elem[0]
-        end = elem[1]
+        console.log(selected[row]);
+        start = elem[0];
+        end = elem[1];
         if (start == end) {
+          console.log(start);
           data[start][row].selected = true;
         } else {
           rects.push({start: start, end: end, row: row});
@@ -276,24 +288,10 @@ function drawCantEdit(id, selected) {
     }
 };
 
-function drawExisting() {
-  // var testSelect = []
-  // for (var i = 0; i < 5; i++) {
-  //   testSelect.push([]);
-  //   for (var j = 0; j < 25; j++) {
-  //     testSelect[i].push([]);
-  //   }
-  // }
-
-  // testSelect[0][1].push([1, 1]);
-  // testSelect[0][3].push([3, 4]);
-  // testSelect[0][5].push([7, 12]);
-  // testSelect[1][2].push([2, 5]);
-  // testSelect[2][1].push([2, 2]);
-  // testSelect[3][23].push([3, 5]);
-  // testSelect[4][12].push([3, 12]);
+function drawExisting(encMeasures) {
 
   for (var i = 0; i < encMeasures.length; i++) {
+    console.log(encMeasures);
     var div = d3.select("#lines")
                 .append("div")
                 .attr("id", "dots-" + i);
@@ -301,8 +299,6 @@ function drawExisting() {
     drawCantEdit("#dots-" + i, encMeasures[i]);
   }
 }
-
-drawExisting();
 
 /////////////////////////////////////////////////
 // MUSIC STUFF
