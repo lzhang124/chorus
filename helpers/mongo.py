@@ -23,16 +23,17 @@ def update_song(ip, measure, song_id):
 
 def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]
-    song_info = [(song['_id'], song['measures']) for song in db['songs'].find({}) if song['_id'] not in user_contributed.values()]
-    valid_songs = []
-    id_to_info = {}
-    for song in song_info:
-        valid_songs.append(song[0])
-        id_to_info[song[0]] = song[1]
-    choice = random.choice(valid_songs if valid_songs != [] else [-1,])
-    to_return = id_to_info[choice]
-    if choice != -1:
-    	choice = str(choice)
+    if len(user_contributed) == 0:
+        return ("", [])
+    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if song['_id'] not in user_contributed.values()]
+    valid_song_ids = []
+    id_to_measure = {}
+    for song in song_id_measures:
+        valid_song_ids.append(song[0])
+        id_to_measure[song[0]] = song[1]
+    choice = random.choice(valid_song_ids if valid_song_ids != [] else ["",])
+    to_return = id_to_measure[choice]
+    choice = str(choice)
     return (choice, to_return)
 
 def auth(ip):
