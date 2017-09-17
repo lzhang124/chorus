@@ -25,8 +25,8 @@ def update():
     auth(ip)
     content = request.json
     _id = None
-    if 'song_id' in content.keys():
-        _id = content['song_id']
+    if 'songId' in content.keys():
+        _id = content['songId']
     try:
         update_song(ip, content['measure'], _id)
         code = 0

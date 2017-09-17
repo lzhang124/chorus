@@ -19,7 +19,7 @@ def update_song(ip, measure, song_id):
                                         {'$inc': {'num_measures': 1},
                                          '$push': {'measures': measure}})['num_measures']
     # asumes "contributed" is another collection
-    db['users'].find_one_and_update({'ip': ip}, { '$set': {"contributions." + str(song_id): measure_num}})
+    db['users'].find_one_and_update({'ip': ip}, { '$set': {"contributed." + str(song_id): measure_num}})
 
 def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]

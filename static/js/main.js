@@ -17,7 +17,7 @@ var synth = new Tone.PolySynth().toMaster()
 var songId = "";
 var encMeasures = 0;
 
-function getSong() {                     
+function getSong() {
   $.get({
     url: "/api/get_random",
     success: function(resp) {
@@ -136,6 +136,7 @@ function drawRect(selection) {
                           .attr("x", 15 + x * xspace)
                           .attr("y", 10 + y * yspace)
                           .style("fill", "#ececec");
+                synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
                 keep = false;
@@ -147,6 +148,7 @@ function drawRect(selection) {
                     selected[y].push([x, currx]);
                   }
                 }
+                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -232,14 +234,19 @@ function decode(encNotes) {
 }
 
 function playMeasure(notes) {
+  Tone.Transport.clear();
   for (var i = 0; i < notes.length; i++) {
-    let a = [];
     for (var j = 0; j < notes[i].length; j++) {
-      a.push(NOTES[notes[i][j]])
+      let start = notes[i][j][0];
+      let end = notes[i][j][1];
+      let duration = end - start + 1;
+      let note = NOTES[i];
+      Tone.Transport.schedule(function(time) {
+        synth.triggerAttackRelease(note, '8n * ' + duration.toString(), time);
+      }, '+8n * ' + start.toString());
     }
-    let temp = (i + 1).toString();
-    synth.triggerAttackRelease(a, '8n', ' + (8n * ' + temp + ')');
   }
+  Tone.Transport.start('+0.01');
 }
 
 function playSong(encMeasures, notes) {
@@ -262,22 +269,15 @@ function playSongHandler() {
 /////////////////////////////////////////////////
 
 function updateSong() {
-  data = {
+  updateData = {
     "measure": encode(selected),
   }
-
   if (songId != "") {
-    data.push({
-      key: "song_id",
-      value: songId
-    })    
+    updateData.songId = songId
   }
   $.post({
     url: '/api/update',
-    data: JSON.stringify(data),
-    contentType: "application/json",
-    sucess: function(){
-      alert(0);
-    }
+    data: JSON.stringify(updateData),
+    contentType: "application/json"
   });
 }
