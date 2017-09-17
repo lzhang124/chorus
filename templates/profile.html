@@ -5,12 +5,16 @@
     <a href="index.html" type="button" id="profile" class="waves-effect waves-light btn grey darken-3">Back</a>
     <div class="container">
       <h3 class="title">Chorus</h3>
-      <ul class="collection with-header grey darken-2">
-        <li class="collection-header grey darken-2"><h4>Songs You've Contributed To!</h4></li>
-        {% for item in contributed %}
-          <li class="collection-item grey darken-2"><div>{{ item[2] }}<a href="#!" class="secondary-content"></a></div></li>
-        {% endfor %}
-      </ul>
+      <div class="row">
+        <div class="col s3" style="text-align: left;">
+          <ul class="collection with-header" style="border: 0px;">
+            <li class="collection-header" style="background: #354554"><h4>Songs</h4></li>
+            {% for item in contributed %}
+              <li class="collection-item" style="background: #354554; border-bottom: 0;"><a href="#one" style="color: #eeeeee">{{ item[2] }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
 </html>
