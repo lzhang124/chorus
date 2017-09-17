@@ -43,7 +43,7 @@ window.onload = function() {
   d3.selectAll(".half-width")
     .append("svg")
     .attr("height", HEIGHT)
-    .attr("width", ($(window).width() - WIDTH)*.75);
+    .attr("width", ($(window).width() - WIDTH)/2);
   getSong();
 }
 
@@ -379,9 +379,9 @@ function playMeasureHandler() {
 
 function playSongHandler() {
   $('#dots-containers').scrollLeft(0);
-  $('#dots-containers').animate({
-    scrollLeft: (encMeasures.length + 1) * WIDTH
-  }, (encMeasures.length + 1) * 4000, 'linear');
+  $('#dots-containers').delay(2000).animate({
+    scrollLeft: (encMeasures.length) * WIDTH
+  }, encMeasures.length * 4000, 'linear');
 
   playSong(encMeasures, selected);
   Tone.Transport.start('+0.01');
