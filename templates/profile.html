@@ -9,14 +9,30 @@
         <div class="col s3" style="text-align: left;">
           <ul class="collection with-header" style="border: 0px;">
             <li class="collection-header" style="background: #354554"><h4>Songs</h4></li>
-            <div style="overflow: auto; height: 100vh;">
-              {% for item in contributed %}
-                <li class="collection-item" style="background: #354554; border-bottom: 0;"><a href="#one" style="color: #eeeeee">{{ item[2] }}</a></li>
-              {% endfor %}
+            <div style="overflow: auto; height: 25vh;">
+            {% for item in contributed %}
+              <li data="{{ item[0] }}" class="song collection-item" style="background: #354554; border-bottom: 0;"><a href="#one" style="color: #eeeeee">{{ item[2] }}</a></li>
+            {% endfor %}
             </div>
           </ul>
         </div>
+        <div class="col s9" id="details">
+        Hello
+        </div>
+      </div>
+      <div class="col s9" id="map">
       </div>
     </div>
   </body>
+<style>
+  svg { width:100%; height: 100% }
+  .arcs path {
+    stroke-width: 2px;
+    stroke: tomato;
+    pointer-events: none;
+    fill: none;
+  }
+</style>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="static/js/profile.js"></script>
 </html>

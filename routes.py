@@ -1,6 +1,7 @@
 from flask import session, request, render_template, jsonify, redirect
 from app import app
 from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users, get_locations
+from helpers.utils import ip_to_location
 
 @app.route('/')
 def index_view():
@@ -50,5 +51,6 @@ def profile():
 def track():
     ip = request.remote_addr
     auth(ip)
+    loc = ip_to_location(ip)
     content = request.json
-    return jsonify(locations=get_locations(request.json['songId']))
+    return jsonify(self=loc, locations=get_locations(request.json['songId']))
