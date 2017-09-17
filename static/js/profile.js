@@ -2,7 +2,13 @@
 // Profile Stuff
 /////////////////////////////////////////////////
 
-var map = new Datamap({element: document.getElementById('map'), scope: 'world'});
+var map = new Datamap({element: document.getElementById('map'), scope: 'world',
+                      fills: {
+                        defaultFill: '#bdbdbd'
+                      }, geographyConfig: {
+                        borderColor: '#515152',
+                        popupOnHover: false,
+                      }});
 
 $('.song').click(function(ev) {
     songId = $(this).attr('data');
