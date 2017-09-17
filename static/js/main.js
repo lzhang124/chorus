@@ -302,4 +302,5 @@ function updateSong() {
     data: JSON.stringify(updateData),
     contentType: "application/json"
   });
+  clearNotes();
 }
