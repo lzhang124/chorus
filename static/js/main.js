@@ -102,7 +102,6 @@ function dotClick(d, i) {
   var selectIndex = selected[d.row].indexOf([d.col, d.col + 1]);
   if (selectIndex === -1) {
     selected[d.row].push([d.col, d.col + 1]);
-    synth.triggerAttackRelease(NOTES[i], '4n');
   } else {
     selected[d.row].splice(selectIndex, 1);
   }
@@ -133,6 +132,7 @@ function drawRect(selection) {
                           .attr("x", 15 + x * xspace)
                           .attr("y", 10 + y * yspace)
                           .style("fill", "#ececec");
+                synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
                 keep = false;
@@ -142,6 +142,7 @@ function drawRect(selection) {
                     selected[y].push([x, currx + 1]);
                   }
                 }
+                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -214,15 +215,6 @@ function playMeasure(notes) {
     }
   }
   Tone.Transport.start('+0.01');
-  /*
-  for (var i = 0; i < notes.length; i++) {
-    let a = [];
-    for (var j = 0; j < notes[i].length; j++) {
-      a.push(NOTES[notes[i][j]])
-    }
-    let temp = (i + 1).toString();
-    synth.triggerAttackRelease(a, '8n', ' + (8n * ' + temp + ')');
-  }*/
 }
 
 function playSong(encMeasures, notes) {
