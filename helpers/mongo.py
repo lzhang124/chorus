@@ -33,12 +33,14 @@ def get_song(ip):
     if len(user_contributed) == 0:
         return ("", [])
     import pdb; pdb.set_trace()
-    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if song['_id'] not in user_contributed.keys()]
+    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if ObjectId(song['_id']) not in user_contributed.keys()]
     valid_song_ids = []
     id_to_measure = {}
     for song in song_id_measures:
         valid_song_ids.append(song[0])
         id_to_measure[song[0]] = song[1]
+    if not valid_song_ids:
+        return ("", [])
     choice = random.choice(valid_song_ids if valid_song_ids != [] else ["",])
     to_return = id_to_measure[choice]
     choice = str(choice)
