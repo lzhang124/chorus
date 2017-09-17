@@ -98,13 +98,6 @@ function decode(enc_notes) {
   return notes;
 }
 
-var selected = [[12, 16, 19], [7, 11, 14, 17], [0, 7, 12, 16]];
-//selected = selected.reverse()
-
-function playCurrentMeasure() {
-  playMeasure(selected);
-}
-
 function playMeasure(notes) {
   for (var i = 0; i < notes.length; i++) {
     let a = [];
@@ -112,7 +105,7 @@ function playMeasure(notes) {
       a.push(NOTES[notes[i][j]])
     }
     let temp = (i + 1).toString();
-    synth.triggerAttackRelease(a, '8n', '+(8n * ' + temp + ')');
+    synth.triggerAttackRelease(a, '8n', ' + (8n * ' + temp + ')');
   }
 }
 
@@ -121,6 +114,10 @@ function playSong(enc_measures, notes) {
     playMeasure(decode(enc_measures[i]));
   }
   playMeasure(notes);
+}
+
+function playCurrentMeasure() {
+  playMeasure(selected);
 }
 
 function playSongHandler() {
