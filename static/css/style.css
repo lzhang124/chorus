@@ -1,6 +1,6 @@
 body {
 	font-family: 'Lato', sans-serif;
-	background: #51b2f7;
+	background: #354554;
 	color: #ececec;
 }
 
@@ -11,6 +11,10 @@ body {
 .container h3.title {
 	text-transform: uppercase;
 	letter-spacing: .15em;
+}
+
+#lines, #dots {
+	display: inline-block;
 }
 
 .dot {

@@ -98,7 +98,7 @@ function dotClick(d, i) {
   var current = d3.select(this);
   current.classed("dot-selected", !current.classed("dot-selected"));
 
-  //insert or delete if necessary
+  // insert or delete if necessary
   var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
   if (exists.length === 0) {
     selected[d.row].push([d.col, d.col]);
@@ -161,7 +161,6 @@ function drawRect(selection) {
               }
             })
 }
-
 
 function clearNotes() {
   svg.selectAll(".dot-selected")
