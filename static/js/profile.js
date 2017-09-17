@@ -20,8 +20,8 @@ d3.json(url, function(err, geojson) {
 })
 
 $('.song').click(function(ev) {
-    songId = $(this).attr('data');
-    data = {
+    var songId = $(this).attr('data');
+    var data = {
     "songId": songId,
     }
     $.post({
@@ -36,11 +36,11 @@ $('.song').click(function(ev) {
 
 function renderView (resp) {
     svg.selectAll("g").remove();
-    arcs = svg.append("g")
+    var arcs = svg.append("g")
             .attr("class","arcs");
-    to = resp.self
-    arcdata = []
-    for (i=0; i < resp.locations.length; i++) {
+    var to = resp.self
+    var arcdata = []
+    for (var i=0; i < resp.locations.length; i++) {
         arcdata.push({
             'source': to,
             'target': resp.locations[i]
@@ -50,14 +50,14 @@ function renderView (resp) {
         .data(arcdata)
         .enter()
         .append("path")
-        .attr('d', function(d) { 
+        .attr('d', function(d) {
             return lngLatToArc(d, 'source', 'target', 15); // A bend of 5 looks nice and subtle, but this will depend on the length of your arcs and the visual look your visualization requires. Higher number equals less bend.
         });
 }
 
 function lngLatToArc(d, sourceName, targetName, bend){
   // If no bend is supplied, then do the plain square root
-  bend = bend || 1;
+  var bend = bend || 1;
   // `d[sourceName]` and `d[targetname]` are arrays of `[lng, lat]`
   // Note, people often put these in lat then lng, but mathematically we want x then y which is `lng,lat`
 
@@ -83,7 +83,7 @@ function lngLatToArc(d, sourceName, targetName, bend){
     var west_of_source = (targetX - sourceX) < 0;
     if (west_of_source) return "M" + targetX + "," + targetY + "A" + dr + "," + dr + " 0 0,1 " + sourceX + "," + sourceY;
     return "M" + sourceX + "," + sourceY + "A" + dr + "," + dr + " 0 0,1 " + targetX + "," + targetY;
-    
+
   } else {
     return "M0,0,l0,0z";
   }
