@@ -232,6 +232,8 @@ function drawCantEdit(id, selected) {
       }
     }
 
+    //mark all the dots first
+    rects = []
     for (var row = 0; row < selected.length; row++) {
       for (var i = 0; i < selected[row].length; i++) {
         elem = selected[row][i];
@@ -239,6 +241,8 @@ function drawCantEdit(id, selected) {
         end = elem[1]
         if (start == end) {
           data[start][row].selected = true;
+        } else {
+          rects.push({start: start, end: end, row: row});
         }
       }
     }
@@ -247,42 +251,58 @@ function drawCantEdit(id, selected) {
                   .data(data)
                   .enter()
                   .append("g")
-                  .attr("class", function(d, i) { return "y-" + i; })
                   .classed("col", true);
 
     var dots = cols.selectAll(".dot-not-visible")
                    .data(function(d) { return d; })
                    .enter()
                    .append("circle")
-                   .attr("class", function(d, i) { return "x-" + i; })
                    .classed("dot-not-visible", true)
                    .attr("cx", function(d) { return d.x; })
                    .attr("cy", function(d) { return d.y; })
                    .attr("r", r)
                    .classed("dot-selected", function(d) { return d.selected; });
+
+    for (var i = 0; i < rects.length; i++) {
+        currRect = rects[i];
+        rect = svg.append("rect")
+          .attr("x", 5 + currRect.start * xspace)
+          .attr("y", 9.5 + currRect.row * yspace)
+          .attr("width", Math.abs(currRect.end - currRect.start) * xspace + 20)
+          .attr("height", 2*r + 1)
+          .attr("rx", 10)
+          .attr("ry", 10)
+          .style("fill", "#ececec");
+    }
 };
 
-var testSelect = []
-for (var i = 0; i < 5; i++) {
-  testSelect.push([]);
-  for (var j = 0; j < 25; j++) {
-    testSelect[i].push([]);
+function drawExisting() {
+  // var testSelect = []
+  // for (var i = 0; i < 5; i++) {
+  //   testSelect.push([]);
+  //   for (var j = 0; j < 25; j++) {
+  //     testSelect[i].push([]);
+  //   }
+  // }
+
+  // testSelect[0][1].push([1, 1]);
+  // testSelect[0][3].push([3, 4]);
+  // testSelect[0][5].push([7, 12]);
+  // testSelect[1][2].push([2, 5]);
+  // testSelect[2][1].push([2, 2]);
+  // testSelect[3][23].push([3, 5]);
+  // testSelect[4][12].push([3, 12]);
+
+  for (var i = 0; i < encMeasures.length; i++) {
+    var div = d3.select("#lines")
+                .append("div")
+                .attr("id", "dots-" + i);
+
+    drawCantEdit("#dots-" + i, encMeasures[i]);
   }
 }
 
-testSelect[0][1].push([1, 1]);
-testSelect[1][2].push([2, 5]);
-testSelect[2][1].push([2, 2]);
-testSelect[3][23].push([3, 5]);
-testSelect[4][12].push([3, 12]);
-
-for (var i = 0; i < testSelect.length; i++) {
-  var div = d3.select("#lines")
-              .append("div")
-              .attr("id", "dots-" + i);
-
-  drawCantEdit("#dots-" + i, testSelect[i]);
-}
+drawExisting();
 
 /////////////////////////////////////////////////
 // MUSIC STUFF

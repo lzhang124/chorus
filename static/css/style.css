@@ -13,10 +13,14 @@ body {
 	letter-spacing: .15em;
 }
 
-#lines {
+#dots-containers {
 	display: flex;
 	overflow-x: scroll;
 	width: 100%;
+}
+
+#lines {
+	display: flex;
 }
 
 #dots {
