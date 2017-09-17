@@ -4,4 +4,5 @@ Jinja2==2.9.6
 itsdangerous==0.24
 pymongo==3.5.1
 num2words==0.5.5
-pygeoip
+pygeoip==0.3.2
+requests==2.18.4
