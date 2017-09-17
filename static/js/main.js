@@ -187,8 +187,6 @@ function drawRect(selection) {
             })
 }
 function clearNotes() {
-  svg.selectAll(".measures")
-    .remove()
   svg.selectAll(".dot-selected")
     .classed("dot-selected", false);
 
@@ -291,6 +289,8 @@ function drawCantEdit(id, selected) {
 };
 
 function drawExisting(encMeasures) {
+  svg.selectAll(".measures")
+    .remove()
   for (var i = 0; i < encMeasures.length; i++) {
     console.log(encMeasures);
     var div = d3.select("#lines")
