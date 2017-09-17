@@ -2,6 +2,7 @@ body {
 	font-family: 'Lato', sans-serif;
 	background: #354554;
 	color: #ececec;
+	overflow: scroll;
 }
 
 .container {
@@ -51,8 +52,4 @@ body {
 #profile {
 	position: absolute;
 	right: 10px;
-}
-
-div.half-width {
-	width: 270px;
 }
