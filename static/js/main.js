@@ -95,16 +95,16 @@ function dotMouseout(d) {
 }
 
 function dotClick(d, i) {
-  console.log("added from dot click");
   var current = d3.select(this);
   current.classed("dot-selected", !current.classed("dot-selected"));
 
   //insert or delete if necessary
   var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
-  if (!exists) {
-    selected[d.row].push([d.col, d.col + 1]);
+  if (exists.length === 0) {
+    console.log("added from dot click");
+    selected[d.row].push([d.col, d.col]);
   } else {
-    var selectIndex = selected[d.row].indexOf([d.col, d.col + 1]);
+    var selectIndex = selected[d.row].indexOf([d.col, d.col]);
     if (selectIndex > -1) {
       selected[d.row].splice(selectIndex, 1);
     }
@@ -140,7 +140,7 @@ function drawRect(selection) {
             })
            .on('mouseup', function() {
                 keep = false;
-                if (currx) {
+                if ((currx - x) > 0) {
                   rect.attr("width", Math.abs(currx - x) * xspace)
                       .on("click", rectClick);
                   if (selected[y].indexOf([x, currx]) === -1) {
