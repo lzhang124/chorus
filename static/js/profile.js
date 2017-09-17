@@ -170,14 +170,21 @@ function renderView (resp) {
             map.arc([]);
             continue;
         }
+        if (i >= locations.length - 1) {
+            lat = resp.self[0]
+            lon = resp.self[1]
+        } else {
+            lat = locations[i+1][0]
+            lon = locations[i+1][1]
+        }
         out.push({
             origin: {
                 latitude: locations[i][0],
                 longitude: locations[i][1]
             },
             destination: {
-                latitude: resp.self[0],
-                longitude: resp.self[1]
+                latitude: lat,
+                longitude: lon
             },
             strokeWidth: 4,
             arcSharpness: 1.4,
