@@ -32,7 +32,6 @@ function getSong() {
       for (var i = 0; i < resp.info.length; i++) {
         all_data.push(decode(resp.info[i]));
       }
-
       drawExisting(all_data);
     }
   });
@@ -243,18 +242,15 @@ function drawCantEdit(id, selected) {
       }
     }
 
-    console.log(data); 
 
     //mark all the dots first
     var rects = []
     for (var row = 0; row < selected.length; row++) {
       for (var i = 0; i < selected[row].length; i++) {
         elem = selected[row][i];
-        console.log(selected[row]);
         start = elem[0];
         end = elem[1];
         if (start == end) {
-          console.log(start);
           data[start][row].selected = true;
         } else {
           rects.push({start: start, end: end, row: row});
@@ -292,11 +288,11 @@ function drawCantEdit(id, selected) {
 };
 
 function drawExisting(encMeasures) {
+  clearNotes();
   svg.selectAll(".measures")
     .remove();
 
   for (var i = 0; i < encMeasures.length; i++) {
-    console.log(encMeasures);
     var div = d3.select("#lines")
                 .append("div")
                 .attr("id", "dots-" + i)
@@ -397,7 +393,7 @@ function updateSong() {
     data: JSON.stringify(updateData),
     contentType: "application/json",
     success: function(resp) {
-      clearNotes();
+      console.log(resp);
       getSong();
     }
   });
