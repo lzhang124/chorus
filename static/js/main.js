@@ -373,6 +373,7 @@ function playSong(encMeasures, notes) {
 }
 
 function playMeasureHandler() {
+  $('#dots-containers').scrollLeft(encMeasures.length * WIDTH);
   playMeasure(selected, "");
   Tone.Transport.start('+0.01');
 }
@@ -380,7 +381,7 @@ function playMeasureHandler() {
 function playSongHandler() {
   $('#dots-containers').scrollLeft(0);
   $('#dots-containers').delay(2000).animate({
-    scrollLeft: (encMeasures.length) * WIDTH
+    scrollLeft: encMeasures.length * WIDTH
   }, encMeasures.length * 4000, 'linear');
 
   playSong(encMeasures, selected);
