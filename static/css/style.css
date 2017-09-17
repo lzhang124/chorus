@@ -31,3 +31,8 @@ body {
 .dot-hover {
 	fill: #ececec !important;
 }
+
+#profile {
+	position: absolute;
+	right: 10px;
+}
