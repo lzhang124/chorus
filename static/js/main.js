@@ -105,7 +105,7 @@ function playMeasure(notes) {
       a.push(NOTES[notes[i][j]])
     }
     let temp = (i + 1).toString();
-    synth.triggerAttackRelease(a, '8n', '+(8n * ' + temp + ')');
+    synth.triggerAttackRelease(a, '8n', ' + (8n * ' + temp + ')');
   }
 }
 
