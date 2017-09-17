@@ -17,7 +17,7 @@ def update_song(ip, measure, song_id):
     if not song_id:
         song_id = db['songs'].insert_one({"measures": [measure], "locations": [coords], "num_measures": 1}).inserted_id
     else:
-        song = db['songs'].find_one_and_update({"_id": song_id}, {
+        song = db['songs'].find_one_and_update({"_id": ObjectId(song_id)}, {
                                           '$inc': {'num_measures': 1},
                                           '$push': {
                                             'measures': measure,
@@ -61,7 +61,7 @@ def auth(ip):
         })
 
 def get_locations(song_id):
-  out = db.songs.find_one({'_id': song_id})
+  out = db.songs.find_one({'_id': ObjectId(song_id)})
   return [] if not out else out['locations']
 
 def get_songs():

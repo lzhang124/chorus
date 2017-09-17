@@ -29,8 +29,8 @@ function getSong() {
 
       var all_data = [];
       
-      for (var i = 0; i < resp.info.length; i++) {
-        all_data.push(decode(resp.info[i]));
+      for (var i = 0; i < encMeasures.length; i++) {
+        all_data.push(decode(encMeasures[i]));
       }
       drawExisting(all_data);
     }
@@ -354,15 +354,15 @@ function playMeasure(notes, offset) {
       }, '+8n * ' + start.toString() + offset);
     }
   }
-  Tone.Transport.start('+0.01');
 }
 
 function playSong(encMeasures, notes) {
+  Tone.Transport.clear();
   var offset = 0;
-  for (i = 0; i < encMeasures.length; i++) {
+  for (var i = 0; i < encMeasures.length; i++) {
     var result = " + 0";
     if (i != 0) {
-        result = "+ " + "(8n * " + offset.toString() + ")";
+      result = "+ " + "(8n * " + offset.toString() + ")";
     }
     playMeasure(decode(encMeasures[i]), result);
     offset += N_COLS
@@ -372,10 +372,12 @@ function playSong(encMeasures, notes) {
 
 function playMeasureHandler() {
   playMeasure(selected, "");
+  Tone.Transport.start('+0.01');
 }
 
 function playSongHandler() {
   playSong(encMeasures, selected);
+  Tone.Transport.start('+0.01');
 }
 
 /////////////////////////////////////////////////
