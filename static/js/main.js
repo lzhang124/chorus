@@ -122,3 +122,7 @@ function playSong(enc_measures, notes) {
   }
   playMeasure(notes);
 }
+
+function playSongHandler() {
+  playSong(enc_measures, selected);
+}
