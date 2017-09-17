@@ -215,7 +215,6 @@ function encode(notes) {
 function decode(encNotes) {
   var notes = [];
   for (i = 0; i < N_ROWS; i++) {
-    debugger;
     startBinary = encNotes[i][0].toString(2);
     endBinary = encNotes[i][1].toString(2);
     startIndices = [];
@@ -248,7 +247,6 @@ function playMeasure(notes, offset) {
 }
 
 function playSong(encMeasures, notes) {
-  debugger;
   var offset = 0;
   for (i = 0; i < encMeasures.length; i++) {
     var result = " + 0";
