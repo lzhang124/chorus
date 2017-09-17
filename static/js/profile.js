@@ -14,11 +14,11 @@ var encMeasures;
 var N_ROWS = 25
 var N_COLS = 16
 
-var WIDTH = 555;
-var HEIGHT = 755;
-var R = 10;
-var XSPACE = 35;
-var YSPACE = 30;
+var WIDTH = 280;
+var HEIGHT = 180;
+var R = 3;
+var XSPACE = 10;
+var YSPACE = 10;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
@@ -97,12 +97,6 @@ function draw(encMeasures) {
 }
 
 function drawCantEdit(id, selected) {
-    var HEIGHT = 280,
-        WIDTH = 180,
-        R = 4,
-        XSPACE = 10,
-        YSPACE = 10;
-
     var svg = d3.select(id)
                 .append("svg")
                 .attr("height", HEIGHT)
