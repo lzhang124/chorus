@@ -189,7 +189,7 @@ function rectClick() {
   if (bar.length > 0) {
     bar = bar[0];
     d3.select(this).remove();
-    for (var i = 0; i <= bar[1]; i++) {
+    for (var i = bar[0]; i <= bar[1]; i++) {
       var circle_class = ".y-" + i + " .x-" + inverted.y;
       d3.select(circle_class).classed("dot-selected", false);
     }
