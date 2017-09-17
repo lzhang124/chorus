@@ -14,8 +14,8 @@ var encMeasures;
 var N_ROWS = 25
 var N_COLS = 16
 
-var WIDTH = 280;
-var HEIGHT = 180;
+var WIDTH = 180;
+var HEIGHT = 280;
 var R = 3;
 var XSPACE = 10;
 var YSPACE = 10;
