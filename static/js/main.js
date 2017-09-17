@@ -144,9 +144,11 @@ function drawRect(selection) {
                         .attr("rx", R)
                         .attr("ry", R)
                         .style("fill", "#ececec");
+              var circle = d3.select(".y-" + x + " .x-" + y);
               if (!deletedRect) {
-                var circle = d3.select(".y-" + x + " .x-" + y);
                 circle.classed("dot-selected", !circle.classed("dot-selected"));
+              }
+              if (circle.classed("dot-selected")) {
                 synth.triggerAttack(NOTES[y]);
               }
             })
@@ -222,7 +224,6 @@ function rectClick() {
   }
 }
 
-
 function drawCantEdit(id, selected) {
     var svg = d3.select(id)
                 .append("svg")
@@ -243,7 +244,6 @@ function drawCantEdit(id, selected) {
         });
       }
     }
-
 
     //mark all the dots first
     var rects = []
