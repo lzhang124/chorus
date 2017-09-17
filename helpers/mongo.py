@@ -51,3 +51,6 @@ def get_songs():
 
 def get_users():
     return db['users'].find({})
+
+def get_user(ip):
+    return db['users'].find_one({'ip': ip})

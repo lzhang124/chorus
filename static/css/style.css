@@ -1,6 +1,6 @@
 body {
 	font-family: 'Lato', sans-serif;
-	background: #51b2f7;
+	background: #35455b;
 	color: #ececec;
 }
 
@@ -25,4 +25,9 @@ body {
 
 .dot-hover {
 	fill: #ececec !important;
+}
+
+#profile {
+	position: absolute;
+	right: 10px;
 }
