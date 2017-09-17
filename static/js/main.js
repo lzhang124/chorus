@@ -230,22 +230,15 @@ function playSongHandler() {
 /////////////////////////////////////////////////
 
 function updateSong() {
-  data = {
+  updateData = {
     "measure": encode(selected),
   }
-
   if (songId != "") {
-    data.push({
-      key: "song_id",
-      value: songId
-    })    
+    updateData.songId = songId 
   }
   $.post({
     url: '/api/update',
-    data: JSON.stringify(data),
-    contentType: "application/json",
-    sucess: function(){
-      alert(0);
-    }
+    data: JSON.stringify(updateData),
+    contentType: "application/json"
   });
 }
