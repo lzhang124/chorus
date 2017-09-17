@@ -33,13 +33,13 @@ song = db['songs'].insert_one({"measures": MEASURE3, "locations": [coords[1], co
 users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 
 #TODO: ADD DIFFERENT COORDS FOR AL THE BELOW
-song = db['songs'].insert_one({"measures": twinkle, "locations": [coords[0],], "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": twinkle, "locations": [coords[2],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '3', "contributed": {str(song): "1"}})
 
 song = db['songs'].insert_one({"measures": scale, "locations": [coords[1], coords[4],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '4', "contributed": {str(song): "1"}})
 
-song = db['songs'].insert_one({"measures": baba, "locations": [coords[4],], "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": baba, "locations": [coords[3],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '5', "contributed": {str(song): "1"}})
 
 db['users'].insert_many(users)
