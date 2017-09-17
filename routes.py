@@ -1,6 +1,6 @@
 from flask import session, request, render_template, jsonify, redirect
 from app import app
-from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users, get_locations
+from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users, get_locations, get_song_by_id
 from helpers.utils import ip_to_location
 
 @app.route('/')
@@ -18,6 +18,13 @@ def get_random():
         response=output,
         info=info
     )
+
+@app.route("/api/song")
+def get_song():
+    song_id = request.args.get("songId")
+    output = get_song_by_id(song_id)
+    return jsonify(info=output)
+
 
 @app.route('/api/update', methods=['POST',])
 def update():
