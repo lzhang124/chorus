@@ -130,6 +130,8 @@ function drawRect(selection) {
                         .attr("x", 15 + x * xspace)
                         .attr("y", 9.5 + y * yspace)
                         .style("fill", "#ececec");
+              var circle = d3.select(".y-" + x + " .x-" + y);
+              circle.classed("dot-selected", !circle.classed("dot-selected"));
               synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
@@ -148,10 +150,6 @@ function drawRect(selection) {
                   } else if (currx === x) {
                     //delete if clicking on a circle that is already filled
                     selected[y].splice(index, 1);
-                  }
-                  if (currx === x) {
-                    var circle = d3.select(".y-" + currx + " .x-" + inverted.y);
-                    circle.classed("dot-selected", !circle.classed("dot-selected"));
                   }
                 } else {
                   deletedRect = false;
