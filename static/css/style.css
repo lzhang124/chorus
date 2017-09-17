@@ -1,6 +1,6 @@
 body {
 	font-family: 'Lato', sans-serif;
-	background: #51b2f7;
+	background: #354554;
 	color: #ececec;
 }
 
@@ -13,9 +13,14 @@ body {
 	letter-spacing: .15em;
 }
 
+#lines, #dots {
+	display: inline-block;
+}
+
 .dot {
 	fill: rgba(0, 0, 0, 0);
 	stroke: #ececec;
+	stroke-opacity: 0.8;
 	stroke-width: 1px;
 }
 
