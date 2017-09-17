@@ -159,27 +159,36 @@ function drawRect(selection) {
 
 var synth = new Tone.PolySynth().toMaster()
 
+zip = rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
+
 function encode(notes) {
-  enc_notes = new Array(N_COLS);
-  for (i = 0; i < N_COLS; i++) {
-    value = 0;
+  encNotes = new Array(N_ROWS);
+  for (i = 0; i < N_ROWS; i++) {
+    startValue = 0;
+    endValue = 0;
     for (j = 0; j < notes[i].length; j++) {
-      value += Math.pow(2, N_ROWS - 1 - notes[i][j]);
+      startValue += Math.pow(2, N_COLS - 1 - notes[i][j][0]);
+      endValue += Math.pow(2, N_COLS - 1 - notes[i][j][1]);
     }
-    enc_notes[i] = value;
+    encNotes[i] = [startValue, endValue];
   }
-  return enc_notes;
+  return encNotes;
 }
 
-function decode(enc_notes) {
+function decode(encNotes) {
   var notes = [];
-  for (i = 0; i < N_COLS; i++) {
-    binary = enc_notes[i].toString(2);
-    indices = [];
-    for (j = 0; j < binary.length; j++) {
-      if (binary[j] === '1') indices.push(N_ROWS - binary.length + j);
+  for (i = 0; i < N_ROWS; i++) {
+    startBinary = encNotes[i][0].toString(2);
+    endBinary = encNotes[i][1].toString(2);
+    startIndices = [];
+    endIndices = [];
+    for (j = 0; j < startBinary.length; j++) {
+      if (startBinary[j] === '1') startIndices.push(N_COLS - startBinary.length + j);
     }
-    notes.push(indices);
+    for (j = 0; j < endBinary.length; j++) {
+      if (endBinary[j] === '1') endIndices.push(N_COLS - endBinary.length + j);
+    }
+    notes.push(zip([startIndices, endIndices]));
   }
   return notes;
 }
