@@ -18,7 +18,7 @@ coords = [(1.0, 0.0),]
 users = []
 N_USERS = 3
 for i in range(N_USERS):
-    song = db['songs'].insert_one({"measures": MEASURE, "locations": coords, "num_measures": 1}).inserted_id
+    song = db['songs'].insert_one({"measures": MEASURE1, "locations": coords, "num_measures": 1}).inserted_id
     users.append({"user": "user" + str(i), "contributed": {str(song): "1"}})
 
 db['users'].insert_many(users)
