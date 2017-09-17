@@ -134,7 +134,6 @@ function drawRect(selection) {
             })
            .on('mouseup', function() {
                 keep = false;
-
                 if (!deletedRect) {
                   var inverted = invert(d3.mouse(this));
                   currx = inverted.x;
@@ -154,10 +153,10 @@ function drawRect(selection) {
                     var circle = d3.select(".y-" + currx + " .x-" + inverted.y);
                     circle.classed("dot-selected", !circle.classed("dot-selected"));
                   }
-                  synth.triggerRelease(NOTES[y]);
                 } else {
                   deletedRect = false;
                 }
+                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -169,8 +168,10 @@ function drawRect(selection) {
                 if (curr[0] - point[0] < 0) {
                   rect.attr("x", 15 + currx * xspace);
                 }
-                var circle_class = ".y-" + currx + " .x-" + y;
-                d3.select(circle_class).classed("dot-selected", true);
+                if (currx !== x) {
+                  var circle_class = ".y-" + currx + " .x-" + y;
+                  d3.select(circle_class).classed("dot-selected", true);
+                }
               }
             })
 }
