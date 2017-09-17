@@ -203,7 +203,6 @@ function playSong(encMeasures, notes) {
 }
 
 function playMeasureHandler() {
-  console.log(selected);
   playMeasure(selected);
 }
 
