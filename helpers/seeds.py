@@ -21,6 +21,6 @@ song = db['songs'].insert_one({"measures": MEASURE1, "locations": coords, "num_m
 users.append({"user": "user" + '1', "contributed": {str(song): "1"}})
 
 song = db['songs'].insert_one({"measures": MEASURE2, "locations": coords, "num_measures": 1}).inserted_id
-users.append({"user": "user" + '1', "contributed": {str(song): "1"}})
+users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 
 db['users'].insert_many(users)

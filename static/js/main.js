@@ -187,6 +187,8 @@ function drawRect(selection) {
             })
 }
 function clearNotes() {
+  svg.selectAll(".measures")
+    .remove()
   svg.selectAll(".dot-selected")
     .classed("dot-selected", false);
 
@@ -299,7 +301,8 @@ function drawExisting(encMeasures) {
     console.log(encMeasures);
     var div = d3.select("#lines")
                 .append("div")
-                .attr("id", "dots-" + i);
+                .attr("id", "dots-" + i)
+                .attr("class", "measures");
 
     drawCantEdit("#dots-" + i, encMeasures[i]);
   }
@@ -396,5 +399,6 @@ function updateSong() {
     data: JSON.stringify(updateData),
     contentType: "application/json"
   });
-  location.reload();
+  clearNotes();
+  getSong();
 }
