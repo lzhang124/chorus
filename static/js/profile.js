@@ -124,11 +124,7 @@ function drawCantEdit(id, selected) {
         elem = selected[row][i];
         start = elem[0];
         end = elem[1];
-        if (start == end) {
-          data[start][row].selected = true;
-        } else {
-          rects.push({start: start, end: end, row: row});
-        }
+        rects.push({start: start, end: end, row: row});
       }
     }
 
@@ -154,7 +150,7 @@ function drawCantEdit(id, selected) {
           .attr("x", 12 + currRect.start * XSPACE)
           .attr("y", 16.5 + currRect.row * YSPACE)
           .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 2*R)
-          .attr("height", 2*R + 1)
+          .attr("height", 2*R)
           .attr("rx", R)
           .attr("ry", R)
           .style("fill", "#ececec");
