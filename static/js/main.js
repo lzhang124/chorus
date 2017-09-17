@@ -100,6 +100,9 @@ function playMeasure() {
 
 }
 
-function playSong() {
-
+function playSong(enc_measures, notes) {
+  for (i = 0; i < enc_measures.length; i++) {
+    playMeasure(decode(enc_measures[i]));
+  }
+  playMeasure(notes);
 }
