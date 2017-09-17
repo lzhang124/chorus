@@ -152,6 +152,9 @@ function renderView (resp) {
     var locations = resp.locations
     var formatted = []
     for (i = 0; i < locations.length; i++) {
+        if (locations[i][0] - resp.self[0] == 0 && locations[i][1] - resp.self[1] == 0) {
+            continue;
+        } 
         formatted.push({
             origin: {
                 latitude: locations[i][0],
