@@ -2,7 +2,7 @@ var N_ROWS = 25
 var N_COLS = 16
 
 var WIDTH = 580;
-var HEIGHT = 760;
+var HEIGHT = 780;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
@@ -40,7 +40,7 @@ var svg = div.append("svg")
              .attr("width", WIDTH);
 
 var selected = [];
-for (var i = 0 ; i < 16; i++) {
+for (var i = 0 ; i < 25; i++) {
   selected.push([]);
 }
 
@@ -54,10 +54,10 @@ for (var i = 0; i < 16; i++) {
   data.push([]);
   for (var j = 0; j < 25; j ++) {
     data[i].push({
-      iy: i,
-      ix: j,
+      col: i,
+      row: j,
       x: 15 + i*xspace,
-      y: 15 + j*yspace
+      y: 20 + j*yspace
     });
   }
 }
@@ -97,20 +97,22 @@ function dotClick(d, i) {
   current.classed("dot-selected", !current.classed("dot-selected"));
 
   //insert or delete if necessary
-  var selectedIndex = selected[d.iy].indexOf(d.ix);
-  if (selectedIndex === -1) {
-    selected[d.iy].push(d.ix);
+  var selectIndex = selected[d.row].indexOf([d.col, d.col + 1]);
+  if (selectIndex === -1) {
+    selected[d.row].push([d.col, d.col + 1]);
   } else {
-    selected[d.iy].splice(selectedIndex, 1);
+    selected[d.row].splice(selectIndex, 1);
   }
-
 }
 
 function invert(point) {
   var x = point[0],
       y = point[1];
   var x_adj = Math.max(Math.round((x - 15) / xspace), 0);
-  var y_adj = Math.max(Math.round((y - 15) / yspace), 0);
+  var y_adj = Math.max(Math.round((y - 20) / yspace), 0);
+  if (y_adj > 15) {
+    y_adj = 15;
+  }
   return {x: x_adj, y: y_adj};
 }
 
@@ -126,13 +128,16 @@ function drawRect(selection) {
                 y = indices.y
                 rect = svg.append("rect")
                           .attr("x", 15 + x * xspace)
-                          .attr("y", 5 + y * yspace)
+                          .attr("y", 10 + y * yspace)
                           .style("fill", "#ececec");
             })
            .on('mouseup', function() {
                 keep = false;
                 if (currx) {
                   rect.attr("width", Math.abs(currx - x) * xspace);
+                  if (selected[y].indexOf([x, currx + 1]) === -1) {
+                    selected[y].push([x, currx + 1]);
+                  }
                 }
             })
            .on('mousemove', function() {
@@ -145,9 +150,6 @@ function drawRect(selection) {
                 if (currx >= x) {
                   var circle_class = ".y-" + currx + " .x-" + y;
                   d3.select(circle_class).classed("dot-selected", true);
-                  if (selected[currx].indexOf(y) === -1) {
-                    selected[currx].push(y);
-                  }
                 }
               }
             });
