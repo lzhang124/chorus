@@ -2,6 +2,7 @@ body {
 	font-family: 'Lato', sans-serif;
 	background: #354554;
 	color: #ececec;
+ 	overflow: scroll;
 }
 
 .container {
@@ -13,7 +14,18 @@ body {
 	letter-spacing: .15em;
 }
 
-#lines, #dots {
+#dots-containers {
+	display: flex;
+	overflow x: scroll;
+	width: 100%;
+	text align: center;
+}
+
+#lines {
+	display: flex;
+}
+
+#dots {
 	display: inline-block;
 }
 
@@ -23,6 +35,12 @@ body {
 	stroke-opacity: 0.8;
 	stroke-width: 1px;
 }
+
+.dot-not-visible {
+	fill: rgba(0, 0, 0, 0);
+	stroke: rgba(0, 0, 0, 0);
+}
+
 
 .dot-selected {
 	fill: #ececec;
