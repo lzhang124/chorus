@@ -101,7 +101,6 @@ function dotClick(d, i) {
   //insert or delete if necessary
   var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
   if (exists.length === 0) {
-    console.log("added from dot click");
     selected[d.row].push([d.col, d.col]);
   } else {
     var selectIndex = selected[d.row].indexOf([d.col, d.col]);
@@ -144,7 +143,6 @@ function drawRect(selection) {
                   rect.attr("width", Math.abs(currx - x) * xspace)
                       .on("click", rectClick);
                   if (selected[y].indexOf([x, currx]) === -1) {
-                    console.log("adding from mouseup");
                     selected[y].push([x, currx]);
                   }
                 }
