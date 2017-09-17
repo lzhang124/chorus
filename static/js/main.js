@@ -99,11 +99,14 @@ function dotClick(d, i) {
   current.classed("dot-selected", !current.classed("dot-selected"));
 
   //insert or delete if necessary
-  var selectIndex = selected[d.row].indexOf([d.col, d.col + 1]);
-  if (selectIndex === -1) {
-    selected[d.row].push([d.col, d.col + 1]);
+  var exists = selected[d.row].filter((elems) => { return elems[0] === d.col; });
+  if (exists.length === 0) {
+    selected[d.row].push([d.col, d.col]);
   } else {
-    selected[d.row].splice(selectIndex, 1);
+    var selectIndex = selected[d.row].indexOf([d.col, d.col]);
+    if (selectIndex > -1) {
+      selected[d.row].splice(selectIndex, 1);
+    }
   }
 }
 
@@ -112,8 +115,8 @@ function invert(point) {
       y = point[1];
   var x_adj = Math.max(Math.round((x - 15) / xspace), 0);
   var y_adj = Math.max(Math.round((y - 20) / yspace), 0);
-  if (y_adj > 15) {
-    y_adj = 15;
+  if (x_adj > 15) {
+    x_adj = 15;
   }
   return {x: x_adj, y: y_adj};
 }
@@ -136,10 +139,11 @@ function drawRect(selection) {
             })
            .on('mouseup', function() {
                 keep = false;
-                if (currx) {
-                  rect.attr("width", Math.abs(currx - x) * xspace);
-                  if (selected[y].indexOf([x, currx + 1]) === -1) {
-                    selected[y].push([x, currx + 1]);
+                if ((currx - x) > 0) {
+                  rect.attr("width", Math.abs(currx - x) * xspace)
+                      .on("click", rectClick);
+                  if (selected[y].indexOf([x, currx]) === -1) {
+                    selected[y].push([x, currx]);
                   }
                 }
                 synth.triggerRelease(NOTES[y]);
@@ -159,8 +163,34 @@ function drawRect(selection) {
             });
 }
 
+
 function clearNotes() {
-  // TODO
+  svg.selectAll(".dot-selected")
+    .classed("dot-selected", false);
+
+  svg.selectAll("rect")
+    .remove();
+
+  selected = [];
+  for (var i = 0 ; i < 25; i++) {
+      selected.push([]);
+  }
+}
+
+function rectClick() {
+  var inverted = invert(d3.mouse(this));
+  var bar = selected[inverted.y].filter((elem) => { return inverted.x >= elem[0] && inverted.x < elem[1]; });
+
+  if (bar.length > 0) {
+    bar = bar[0];
+    d3.select(this).remove();
+    for (var i = 0; i <= bar[1]; i++) {
+      var circle_class = ".y-" + i + " .x-" + inverted.y;
+      d3.select(circle_class).classed("dot-selected", false);
+    }
+    index = selected[inverted.y].indexOf(bar);
+    selected[inverted.y].splice(index, 1);
+  }
 }
 
 /////////////////////////////////////////////////
@@ -207,7 +237,7 @@ function playMeasure(notes) {
     for (var j = 0; j < notes[i].length; j++) {
       let start = notes[i][j][0];
       let end = notes[i][j][1];
-      let duration = end - start;
+      let duration = end - start + 1;
       let note = NOTES[i];
       Tone.Transport.schedule(function(time) {
         synth.triggerAttackRelease(note, '8n * ' + duration.toString(), time);
