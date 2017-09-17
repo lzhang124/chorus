@@ -27,15 +27,15 @@ def update():
     _id = None
     if 'songId' in content.keys():
         _id = content['songId']
-    try:
-        update_song(ip, content['measure'], _id)
-        code = 0
-    except:
-        code = 1
-    finally:
-        return jsonify(
-            code=code
-        )
+    # try:
+    update_song(ip, content['measure'], _id)
+    code = 0
+    # except:
+        # code = 1
+    # finally:
+    return jsonify(
+        code=code
+    )
 
 
 @app.route('/profile')
