@@ -1,8 +1,8 @@
 var N_ROWS = 25
 var N_COLS = 16
 
-var WIDTH = 580;
-var HEIGHT = 780;
+var WIDTH = 555;
+var HEIGHT = 755;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
@@ -187,6 +187,8 @@ function drawRect(selection) {
             })
 }
 function clearNotes() {
+  svg.selectAll(".measures")
+    .remove()
   svg.selectAll(".dot-selected")
     .classed("dot-selected", false);
 
@@ -289,12 +291,12 @@ function drawCantEdit(id, selected) {
 };
 
 function drawExisting(encMeasures) {
-
   for (var i = 0; i < encMeasures.length; i++) {
     console.log(encMeasures);
     var div = d3.select("#lines")
                 .append("div")
-                .attr("id", "dots-" + i);
+                .attr("id", "dots-" + i)
+                .attr("class", "measures");
 
     drawCantEdit("#dots-" + i, encMeasures[i]);
   }
@@ -391,5 +393,6 @@ function updateSong() {
     data: JSON.stringify(updateData),
     contentType: "application/json"
   });
-  location.reload();
+  clearNotes();
+  getSong();
 }
