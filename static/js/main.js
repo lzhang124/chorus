@@ -12,6 +12,7 @@ var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'E3', 'D#3', 'D3', 'C#3', 'C3'];
 
 var synth = new Tone.PolySynth().toMaster();
+Tone.Transport.bpm.value = 120
 
 /////////////////////////////////////////////////
 // Load song
@@ -32,6 +33,7 @@ function getSong() {
       for (var i = 0; i < encMeasures.length; i++) {
         all_data.push(decode(encMeasures[i]));
       }
+      $('#dots-containers').scrollLeft(0);
       drawExisting(all_data);
     }
   });
@@ -371,11 +373,17 @@ function playSong(encMeasures, notes) {
 }
 
 function playMeasureHandler() {
+  $('#dots-containers').scrollLeft(encMeasures.length * WIDTH);
   playMeasure(selected, "");
   Tone.Transport.start('+0.01');
 }
 
 function playSongHandler() {
+  $('#dots-containers').scrollLeft(0);
+  $('#dots-containers').delay(2000).animate({
+    scrollLeft: encMeasures.length * WIDTH
+  }, encMeasures.length * 4000, 'linear');
+
   playSong(encMeasures, selected);
   Tone.Transport.start('+0.01');
 }
