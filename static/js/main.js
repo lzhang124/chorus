@@ -35,6 +35,8 @@ window.onload = function() {
 // Front end
 /////////////////////////////////////////////////
 
+var deletedRect = false;
+
 function indexOfCustom (parentArray, searchElement) {
     for ( var i = 0; i < parentArray.length; i++ ) {
         if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] ) {
@@ -131,25 +133,32 @@ function drawRect(selection) {
             })
            .on('mouseup', function() {
                 keep = false;
-                var inverted = invert(d3.mouse(this));
-                currx = inverted.x;
-                if (rect) {
-                  rect.attr("width", Math.abs(currx - x) * xspace)
-                      .on("click", rectClick);
-                }
-                var index = indexOfCustom(selected[inverted.y], [x, currx]);
 
-                if (index === -1) {
-                  selected[y].push([x, currx]);
-                } else if (currx === x) {
-                  //delete if clicking on a circle that is already filled
-                  selected[y].splice(index, 1);
+                console.log(deletedRect);
+                if (!deletedRect) {
+                  var inverted = invert(d3.mouse(this));
+                  currx = inverted.x;
+                  if (rect) {
+                    rect.attr("width", Math.abs(currx - x) * xspace)
+                        .on("mousedown", rectClick);
+                  }
+                  var index = indexOfCustom(selected[inverted.y], [x, currx]);
+                  console.log(index);
+
+                  if (index === -1) {
+                    selected[y].push([x, currx]);
+                  } else if (currx === x) {
+                    //delete if clicking on a circle that is already filled
+                    selected[y].splice(index, 1);
+                  }
+                  if (currx === x) {
+                    var circle = d3.select(".y-" + currx + " .x-" + inverted.y);
+                    circle.classed("dot-selected", !circle.classed("dot-selected"));
+                  }
+                  synth.triggerRelease(NOTES[y]);
+                } else {
+                  deletedRect = false;
                 }
-                if (currx === x) {
-                  var circle = d3.select(".y-" + currx + " .x-" + inverted.y);
-                  circle.classed("dot-selected", !circle.classed("dot-selected"));
-                }
-                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -192,8 +201,11 @@ function rectClick() {
       var circle_class = ".y-" + i + " .x-" + inverted.y;
       d3.select(circle_class).classed("dot-selected", false);
     }
+    console.log(bar);
     index = indexOfCustom(selected[inverted.y], bar);
     selected[inverted.y].splice(index, 1);
+
+    deletedRect = true;
   }
 }
 
