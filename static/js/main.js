@@ -149,6 +149,9 @@ function drawRect(selection) {
                 var curr = d3.mouse(this);
                 rect.attr("width", Math.abs(curr[0] - point[0]))
                     .attr("height", r*2);
+                if (curr[0] - point[0] < 0) {
+                  rect.attr("x", curr[0]);
+                }
                 var inverted = invert(curr);
                 currx = inverted.x
                 if (currx >= x) {
