@@ -7,7 +7,6 @@ db.songs.remove()
 db.users.remove()
 
 songs = []
-N_SONGS = 3
 
 MEASURE1 = [[[160,80], [2568,1281], [0,0], [160,80], [0,0], [2568,1281], [0,0], [0,0], [41488,20500], [0,0], [0,0], [0,0], [40960,20480], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]]]
 
@@ -19,24 +18,32 @@ scale = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0
 baba = [[[0,0],[0,0],[0,0],[3840,3840],[0,0],[12440,12440],[0,0],[96,96],[0,0],[0,0],[6,6],[0,0],[49153,49153],[0,0],[0,0],[1792,1792],[0,0],[12440,12440],[0,0],[96,96],[0,0],[0,0],[6,6],[0,0],[49153,49153]]]
 # songs.append({"measures": MEASURE1, "num_measures": 1})
 # db['songs'].insert_many(songs)
-coords = [(51.0, 14.0),]
+MEASURE3 = MEASURE1 + MEASURE2
+
+MEASURE4 = MEASURE1 + MEASURE2 + twinkle
+
+coords = [(39.0, 116.0), (-34.0, -58.0), (6.0, 3.0), (36.0, -119.0), (-33.0, 151.0)]
 
 users = []
-N_USERS = 3
-song = db['songs'].insert_one({"measures": MEASURE1, "locations": coords, "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": MEASURE1, "locations": [coords[0],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '1', "contributed": {str(song): "1"}})
 
-song = db['songs'].insert_one({"measures": MEASURE2, "locations": coords, "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": MEASURE2, "locations": [coords[1],], "num_measures": 1}).inserted_id
+users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
+
+song = db['songs'].insert_one({"measures": MEASURE3, "locations": [coords[1], coords[2]], "num_measures": 1}).inserted_id
+users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
+
+song = db['songs'].insert_one({"measures": MEASURE4, "locations": [coords[1], coords[2], coords[3]], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 #TODO: ADD DIFFERENT COORDS FOR AL THE BELOW
-song = db['songs'].insert_one({"measures": twinkle, "locations": coords, "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": twinkle, "locations": [coords[0],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '3', "contributed": {str(song): "1"}})
 
-song = db['songs'].insert_one({"measures": scale, "locations": coords, "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": scale, "locations": [coords[1], coords[4],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '4', "contributed": {str(song): "1"}})
 
-song = db['songs'].insert_one({"measures": baba, "locations": coords, "num_measures": 1}).inserted_id
+song = db['songs'].insert_one({"measures": baba, "locations": [coords[4],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '5', "contributed": {str(song): "1"}})
-
 
 db['users'].insert_many(users)

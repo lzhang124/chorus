@@ -162,13 +162,15 @@ function drawCantEdit(id, selected) {
 }
 
 function renderView (resp) {
+    map.arc([])
+    out = []
     var locations = resp.locations
-    var formatted = []
     for (i = 0; i < locations.length; i++) {
         if (locations[i][0] - resp.self[0] == 0 && locations[i][1] - resp.self[1] == 0) {
+            map.arc([]);
             continue;
         }
-        formatted.push({
+        out.push({
             origin: {
                 latitude: locations[i][0],
                 longitude: locations[i][1]
@@ -181,7 +183,7 @@ function renderView (resp) {
             arcSharpness: 1.4,
         });
     }
-    map.arc(formatted);
+    map.arc(out);
 }
 
 function playMeasure(notes, offset) {
