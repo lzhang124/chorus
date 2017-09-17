@@ -143,10 +143,11 @@ function drawRect(selection) {
                     rect.attr("width", Math.abs(currx - x) * xspace)
                         .on("mousedown", rectClick);
                   }
-                  var index = indexOfCustom(selected[inverted.y], [x, currx]);
+                  var range = [Math.min(x, currx), Math.max(x, currx)];
+                  var index = indexOfCustom(selected[inverted.y], range);
 
                   if (index === -1) {
-                    selected[y].push([x, currx]);
+                    selected[y].push(range);
                   } else if (currx === x) {
                     //delete if clicking on a circle that is already filled
                     selected[y].splice(index, 1);
