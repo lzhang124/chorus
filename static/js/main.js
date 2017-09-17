@@ -289,7 +289,8 @@ function drawCantEdit(id, selected) {
 
 function drawExisting(encMeasures) {
   clearNotes();
-  svg.selectAll(".measures")
+  d3.selectAll(".measures")
+    .selectAll("svg")
     .remove();
 
   for (var i = 0; i < encMeasures.length; i++) {
