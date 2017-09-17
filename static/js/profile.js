@@ -27,6 +27,9 @@ var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
 var synth = new Tone.PolySynth().toMaster();
 
 $('.song').click(function(ev) {
+    $(".selected-song").removeClass("selected-song");
+    $(this).addClass("selected-song");
+
     songId = $(this).attr('data');
     data = {
     "songId": songId,
