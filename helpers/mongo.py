@@ -33,7 +33,6 @@ def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]
     if len(user_contributed) == 0:
         return ("", [])
-    import pdb; pdb.set_trace()
     song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if str(song['_id']) not in user_contributed.keys()]
     valid_song_ids = []
     id_to_measure = {}
