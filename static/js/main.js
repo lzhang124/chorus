@@ -1,15 +1,39 @@
 var N_ROWS = 25
 var N_COLS = 16
 
-var width = 580;
-var height = 760;
+var WIDTH = 580;
+var HEIGHT = 760;
+
+/////////////////////////////////////////////////
+// Load song
+/////////////////////////////////////////////////
+
+var songId = "";
+var encMeasures = 0;
+
+function getSong() {
+  $.get({
+    url: "/api/get_random",
+    success: function(resp) {
+      songId = resp.response
+      encMeasures = resp.info
+    }
+  });
+}
+
+window.onload = function() {
+  getSong();
+}
+
+/////////////////////////////////////////////////
+// Front end
+/////////////////////////////////////////////////
 
 var div = d3.select("#dots");
 
 var svg = div.append("svg")
-             .attr("height", height)
-             .attr("width", width);
-
+             .attr("height", HEIGHT)
+             .attr("width", WIDTH);
 
 var selected = [];
 for (var i = 0 ; i < 16; i++) {
@@ -171,9 +195,9 @@ function playMeasure(notes) {
   }
 }
 
-function playSong(enc_measures, notes) {
-  for (i = 0; i < enc_measures.length; i++) {
-    playMeasure(decode(enc_measures[i]));
+function playSong(encMeasures, notes) {
+  for (i = 0; i < encMeasures.length; i++) {
+    playMeasure(decode(encMeasures[i]));
   }
   playMeasure(notes);
 }
@@ -184,5 +208,5 @@ function playMeasureHandler() {
 }
 
 function playSongHandler() {
-  playSong(enc_measures, selected);
+  playSong(encMeasures, selected);
 }
