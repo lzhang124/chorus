@@ -32,7 +32,7 @@ def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]
     if len(user_contributed) == 0:
         return ("", [])
-    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if ObjectId(song['_id']) not in user_contributed.keys()]
+    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if str(song['_id']) not in user_contributed.keys()]
     valid_song_ids = []
     id_to_measure = {}
     for song in song_id_measures:
