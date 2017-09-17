@@ -51,7 +51,7 @@ $('.song').click(function(ev) {
           }
           draw(all_data);
           encMeasures = all_data;
-          document.getElementById('playSong').hidden = false;
+          document.getElementById('playSong').style.visibility = "";
         }
     });
 });
