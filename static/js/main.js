@@ -185,3 +185,21 @@ function playCurrentMeasure() {
 function playSongHandler() {
   playSong(enc_measures, selected);
 }
+
+
+var song_id = "";
+var song_info = 0;
+
+function getSong() {
+  $.get({
+    url: "/api/get_random",
+    success: function(resp) {
+      song_id = resp.response
+      song_info = resp.info
+    }
+  });
+}
+
+window.onload = function() {
+  getSong();
+}
