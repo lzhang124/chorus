@@ -13,7 +13,13 @@ body {
 	letter-spacing: .15em;
 }
 
-#lines, #dots {
+#lines {
+	display: flex;
+	overflow-x: scroll;
+	width: 100%;
+}
+
+#dots {
 	display: inline-block;
 }
 
@@ -22,6 +28,11 @@ body {
 	stroke: #ececec;
 	stroke-opacity: 0.8;
 	stroke-width: 1px;
+}
+
+.dot-not-visible {
+	fill: rgba(0, 0, 0, 0);
+	stroke: rgba(0, 0, 0, 0);
 }
 
 .dot-selected {

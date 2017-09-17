@@ -178,7 +178,6 @@ function drawRect(selection) {
               }
             })
 }
-
 function clearNotes() {
   svg.selectAll(".dot-selected")
     .classed("dot-selected", false);
@@ -209,6 +208,80 @@ function rectClick() {
 
     deletedRect = true;
   }
+}
+
+
+function drawCantEdit(id, selected) {
+    var svg = d3.select(id)
+                .append("svg")
+                .attr("height", HEIGHT)
+                .attr("width", WIDTH);
+
+    var data = [];
+
+    for (var i = 0; i < 16; i++) {
+      data.push([]);
+      for (var j = 0; j < 25; j ++) {
+        data[i].push({
+          col: i,
+          row: j,
+          x: 15 + i*xspace,
+          y: 20 + j*yspace,
+          selected: false
+        });
+      }
+    }
+
+    for (var row = 0; row < selected.length; row++) {
+      for (var i = 0; i < selected[row].length; i++) {
+        elem = selected[row][i];
+        start = elem[0]
+        end = elem[1]
+        if (start == end) {
+          data[start][row].selected = true;
+        }
+      }
+    }
+
+    var cols = svg.selectAll(".col")
+                  .data(data)
+                  .enter()
+                  .append("g")
+                  .attr("class", function(d, i) { return "y-" + i; })
+                  .classed("col", true);
+
+    var dots = cols.selectAll(".dot-not-visible")
+                   .data(function(d) { return d; })
+                   .enter()
+                   .append("circle")
+                   .attr("class", function(d, i) { return "x-" + i; })
+                   .classed("dot-not-visible", true)
+                   .attr("cx", function(d) { return d.x; })
+                   .attr("cy", function(d) { return d.y; })
+                   .attr("r", r)
+                   .classed("dot-selected", function(d) { return d.selected; });
+};
+
+var testSelect = []
+for (var i = 0; i < 5; i++) {
+  testSelect.push([]);
+  for (var j = 0; j < 25; j++) {
+    testSelect[i].push([]);
+  }
+}
+
+testSelect[0][1].push([1, 1]);
+testSelect[1][2].push([2, 5]);
+testSelect[2][1].push([2, 2]);
+testSelect[3][23].push([3, 5]);
+testSelect[4][12].push([3, 12]);
+
+for (var i = 0; i < testSelect.length; i++) {
+  var div = d3.select("#lines")
+              .append("div")
+              .attr("id", "dots-" + i);
+
+  drawCantEdit("#dots-" + i, testSelect[i]);
 }
 
 /////////////////////////////////////////////////
