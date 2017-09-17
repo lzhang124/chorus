@@ -6,9 +6,9 @@ var HEIGHT = 780;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
-             'E3', 'D#3', 'D3', 'C#3', 'C3']
+             'E3', 'D#3', 'D3', 'C#3', 'C3'];
 
-var synth = new Tone.PolySynth().toMaster()
+var synth = new Tone.PolySynth().toMaster();
 
 /////////////////////////////////////////////////
 // Load song
@@ -21,8 +21,16 @@ function getSong() {
   $.get({
     url: "/api/get_random",
     success: function(resp) {
-      songId = resp.response
-      encMeasures = resp.info
+      songId = resp.response;
+      encMeasures = resp.info;
+
+      var all_data = [];
+      
+      for (var i = 0; i < resp.info.length; i++) {
+        all_data.push(decode(resp.info[i]));
+      }
+
+      drawExisting(all_data);
     }
   });
 }
@@ -178,7 +186,6 @@ function drawRect(selection) {
               }
             })
 }
-
 function clearNotes() {
   svg.selectAll(".dot-selected")
     .classed("dot-selected", false);
@@ -208,6 +215,88 @@ function rectClick() {
     selected[inverted.y].splice(index, 1);
 
     deletedRect = true;
+  }
+}
+
+
+function drawCantEdit(id, selected) {
+    var svg = d3.select(id)
+                .append("svg")
+                .attr("height", HEIGHT)
+                .attr("width", WIDTH);
+
+    var data = [];
+
+    for (var i = 0; i < 16; i++) {
+      data.push([]);
+      for (var j = 0; j < 25; j ++) {
+        data[i].push({
+          col: i,
+          row: j,
+          x: 15 + i*xspace,
+          y: 20 + j*yspace,
+          selected: false
+        });
+      }
+    }
+
+    console.log(data); 
+
+    //mark all the dots first
+    var rects = []
+    for (var row = 0; row < selected.length; row++) {
+      for (var i = 0; i < selected[row].length; i++) {
+        elem = selected[row][i];
+        console.log(selected[row]);
+        start = elem[0];
+        end = elem[1];
+        if (start == end) {
+          console.log(start);
+          data[start][row].selected = true;
+        } else {
+          rects.push({start: start, end: end, row: row});
+        }
+      }
+    }
+
+    var cols = svg.selectAll(".col")
+                  .data(data)
+                  .enter()
+                  .append("g")
+                  .classed("col", true);
+
+    var dots = cols.selectAll(".dot-not-visible")
+                   .data(function(d) { return d; })
+                   .enter()
+                   .append("circle")
+                   .classed("dot-not-visible", true)
+                   .attr("cx", function(d) { return d.x; })
+                   .attr("cy", function(d) { return d.y; })
+                   .attr("r", r)
+                   .classed("dot-selected", function(d) { return d.selected; });
+
+    for (var i = 0; i < rects.length; i++) {
+        currRect = rects[i];
+        rect = svg.append("rect")
+          .attr("x", 5 + currRect.start * xspace)
+          .attr("y", 9.5 + currRect.row * yspace)
+          .attr("width", Math.abs(currRect.end - currRect.start) * xspace + 20)
+          .attr("height", 2*r + 1)
+          .attr("rx", 10)
+          .attr("ry", 10)
+          .style("fill", "#ececec");
+    }
+};
+
+function drawExisting(encMeasures) {
+
+  for (var i = 0; i < encMeasures.length; i++) {
+    console.log(encMeasures);
+    var div = d3.select("#lines")
+                .append("div")
+                .attr("id", "dots-" + i);
+
+    drawCantEdit("#dots-" + i, encMeasures[i]);
   }
 }
 
