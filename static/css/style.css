@@ -52,3 +52,7 @@ body {
 	position: absolute;
 	right: 10px;
 }
+
+div.half-width {
+	width: 270px;
+}
