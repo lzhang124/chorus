@@ -37,17 +37,17 @@ def get_song(ip):
     return (choice, to_return)
 
 def auth(ip):
-	exists = db['users'].find_one({
-		'ip': ip
-	})
-	if not exists:
-		uiud = db['users'].insert({
-			'ip': ip,
-			'contributed': {}
-		})
+    exists = db['users'].find_one({
+        'ip': ip
+    })
+    if not exists:
+        uiud = db['users'].insert({
+            'ip': ip,
+            'contributed': {}
+        })
 
 def get_songs():
-	return db['songs'].find({})
+    return db['songs'].find({})
 
 def get_users():
-	return db['users'].find({})
+    return db['users'].find({})
