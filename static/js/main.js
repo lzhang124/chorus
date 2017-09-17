@@ -396,8 +396,10 @@ function updateSong() {
   $.post({
     url: '/api/update',
     data: JSON.stringify(updateData),
-    contentType: "application/json"
+    contentType: "application/json",
+    success: function(resp) {
+      clearNotes();
+      getSong();
+    }
   });
-  clearNotes();
-  getSong();
 }
