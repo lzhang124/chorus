@@ -207,7 +207,7 @@ function playMeasure(notes) {
     for (var j = 0; j < notes[i].length; j++) {
       let start = notes[i][j][0];
       let end = notes[i][j][1];
-      let duration = end - start;
+      let duration = end - start + 1;
       let note = NOTES[i];
       Tone.Transport.schedule(function(time) {
         synth.triggerAttackRelease(note, '8n * ' + duration.toString(), time);
