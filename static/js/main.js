@@ -264,7 +264,7 @@ function playSong(encMeasures, notes) {
     playMeasure(decode(encMeasures[i]), result);
     offset += N_COLS
   }
-  playMeasure(notes);
+  playMeasure(notes, "+ " + "(8n * " + offset.toString() + ")");
 }
 
 function playMeasureHandler() {
