@@ -3,36 +3,32 @@ from app import app
 
 from helpers.mongo import get_songs, auth, update_song, get_song
 
-def auth_decorate(fn):
-	def enforce_state():
-		auth()
-		fn()
-	return enforce_state
-
-@auth_decorate
 @app.route('/')
 def index_view():
     return render_template('index.html')
 
-@auth_decorate
 @app.route('/api/get_random')
 def get_random():
-	output = get_song(request.remote_addr)
+	ip = request.remote_addr
+	auth(ip)
+	output, info = get_song(ip)
 	success = 0 if output != -1 else 1
 	return jsonify(
 		code=success,
-		response=output
+		response=output,
+		info=info
 	)
 
-@auth_decorate
 @app.route('/api/update', methods=['POST',])
 def update():
+	ip = request.remote_addr
+	auth(ip)
 	content = request.json
 	_id = None
 	if 'song_id' in content.keys():
 		_id = content['song_id']
 	try:
-		update_song(request.remote_addr, content['measure'], _id)
+		update_song(ip, content['measure'], _id)
 		code = 0
 	except:
 		code = 1
