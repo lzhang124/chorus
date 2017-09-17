@@ -1,12 +1,7 @@
 from flask import session, request, render_template, jsonify, redirect
 from app import app
-<<<<<<< HEAD
 from num2words import num2words
-from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users
-=======
-
-from helpers.mongo import get_songs, auth, update_song, get_song, get_locations
->>>>>>> 116183dae6ee3f052993f85716041ffcf4dc46da
+from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users, get_locations
 
 @app.route('/')
 def index_view():
