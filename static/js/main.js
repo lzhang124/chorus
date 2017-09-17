@@ -36,6 +36,10 @@ function getSong() {
 }
 
 window.onload = function() {
+  d3.selectAll(".half-width")
+    .append("svg")
+    .attr("height", HEIGHT)
+    .attr("width", ($(window).width() - WIDTH)/2);
   getSong();
 }
 
@@ -290,11 +294,7 @@ function drawCantEdit(id, selected) {
 
 function drawExisting(encMeasures) {
   svg.selectAll(".measures")
-    .remove()
-  d3.selectAll("div.half-width")
-    .append("svg")
-    .attr("height", HEIGHT)
-    .attr("width", WIDTH/2);
+    .remove();
 
   for (var i = 0; i < encMeasures.length; i++) {
     console.log(encMeasures);
