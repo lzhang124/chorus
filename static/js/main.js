@@ -394,7 +394,6 @@ function updateSong() {
     data: JSON.stringify(updateData),
     contentType: "application/json",
     success: function(resp) {
-      console.log(resp);
       getSong();
     }
   });
