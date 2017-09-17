@@ -10,7 +10,13 @@ var svg = div.append("svg")
              .attr("height", height)
              .attr("width", width);
 
-var data = []
+
+var selected = [];
+for (var i = 0 ; i < 16; i++) {
+  selected.push([]);
+}
+
+var data = [];
 
 var r = 10;
 var xspace = 35;
@@ -20,30 +26,35 @@ for (var i = 0; i < 16; i++) {
   data.push([]);
   for (var j = 0; j < 25; j ++) {
     data[i].push({
-      x: 10 + i*xspace,
-      y: 10 + j*yspace,
-      r: r
+      iy: i,
+      ix: j,
+      x: 15 + i*xspace,
+      y: 15 + j*yspace
     });
   }
 }
 
-var rows = svg.selectAll(".row")
+var cols = svg.selectAll(".col")
               .data(data)
               .enter()
               .append("g")
-              .attr("class", "row");
+              .attr("class", function(d, i) { return "y-" + i; })
+              .classed("col", true);
 
-var dots = rows.selectAll(".dot")
+var dots = cols.selectAll(".dot")
                .data(function(d) { return d; })
                .enter()
                .append("circle")
-               .attr("class", "dot")
+               .attr("class", function(d, i) { return "x-" + i; })
+               .classed("dot", true)
                .attr("cx", function(d) { return d.x; })
                .attr("cy", function(d) { return d.y; })
                .attr("r", r)
                .on('mouseover', dotMouseover)
                .on('mouseout', dotMouseout)
                .on('click', dotClick);
+
+svg.call(drawRect);
 
 function dotMouseover(d) {
   d3.select(this).classed("dot-hover", true);
@@ -53,11 +64,66 @@ function dotMouseout(d) {
   d3.select(this).classed("dot-hover", false);
 }
 
-function dotClick(d) {
+function dotClick(d, i) {
   var current = d3.select(this);
   current.classed("dot-selected", !current.classed("dot-selected"));
+
+  //insert or delete if necessary
+  var selectedIndex = selected[d.iy].indexOf(d.ix);
+  if (selectedIndex === -1) {
+    selected[d.iy].push(d.ix);
+  } else {
+    selected[d.iy].splice(selectedIndex, 1);
+  }
+
 }
 
+function invert(point) {
+  var x = point[0],
+      y = point[1];
+  var x_adj = Math.max(Math.round((x - 15) / xspace), 0);
+  var y_adj = Math.max(Math.round((y - 15) / yspace), 0);
+  return {x: x_adj, y: y_adj};
+}
+
+function drawRect(selection) {
+  var keep = false;
+  var rect, x, y, point, currx;
+
+  selection.on('mousedown', function() { 
+                keep = true; 
+                point = d3.mouse(this);
+                var indices = invert(point);
+                x = indices.x;
+                y = indices.y
+                rect = svg.append("rect")
+                          .attr("x", 15 + x * xspace)
+                          .attr("y", 5 + y * yspace)
+                          .style("fill", "#ececec");
+            })
+           .on('mouseup', function() { 
+                keep = false; 
+                if (currx) {
+                  rect.attr("width", Math.abs(currx - x) * xspace);
+                }
+            })
+           .on('mousemove', function() {
+              if (keep) {
+                var curr = d3.mouse(this);
+                rect.attr("width", Math.abs(curr[0] - point[0]))
+                    .attr("height", r*2);
+                var inverted = invert(curr);
+                currx = inverted.x
+                if (currx >= x) {
+                  var circle_class = ".y-" + currx + " .x-" + y;
+                  d3.select(circle_class).classed("dot-selected", true);
+                  if (selected[currx].indexOf(y) === -1) {
+                    selected[currx].push(y);
+                  }
+                }
+              }
+            });
+}
 
 /////////////////////////////////////////////////
 // MUSIC STUFF
