@@ -148,7 +148,7 @@ function drawCantEdit(id, selected) {
         currRect = rects[i];
         rect = svg.append("rect")
           .attr("x", 12 + currRect.start * XSPACE)
-          .attr("y", 16.5 + currRect.row * YSPACE)
+          .attr("y", 17 + currRect.row * YSPACE)
           .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 2*R)
           .attr("height", 2*R)
           .attr("rx", R)
