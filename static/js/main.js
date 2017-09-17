@@ -134,7 +134,6 @@ function drawRect(selection) {
            .on('mouseup', function() {
                 keep = false;
 
-                console.log(deletedRect);
                 if (!deletedRect) {
                   var inverted = invert(d3.mouse(this));
                   currx = inverted.x;
@@ -143,7 +142,6 @@ function drawRect(selection) {
                         .on("mousedown", rectClick);
                   }
                   var index = indexOfCustom(selected[inverted.y], [x, currx]);
-                  console.log(index);
 
                   if (index === -1) {
                     selected[y].push([x, currx]);
@@ -201,7 +199,7 @@ function rectClick() {
       var circle_class = ".y-" + i + " .x-" + inverted.y;
       d3.select(circle_class).classed("dot-selected", false);
     }
-    console.log(bar);
+
     index = indexOfCustom(selected[inverted.y], bar);
     selected[inverted.y].splice(index, 1);
 
