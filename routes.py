@@ -1,6 +1,5 @@
 from flask import session, request, render_template, jsonify, redirect
 from app import app
-from num2words import num2words
 from helpers.mongo import get_user, get_songs, auth, update_song, get_song, get_users, get_locations
 
 @app.route('/')
@@ -44,7 +43,7 @@ def profile():
     auth(ip)
     user = get_user(ip)
     result = zip(user["contributed"].keys(), user['contributed'].values(),
-                [num2words(i).capitalize() for i in range(1, len(user['contributed']) + 1)])
+                [i for i in range(1, len(user['contributed']) + 1)])
     return render_template('profile.html', contributed=result)
 
 @app.route('/api/tracker', methods=['POST',])
