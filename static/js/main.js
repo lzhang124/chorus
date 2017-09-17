@@ -126,27 +126,27 @@ function drawRect(selection) {
   var rect, x, y, point, currx;
 
   selection.on('mousedown', function() {
-                keep = true;
-                point = d3.mouse(this);
-                var indices = invert(point);
-                x = indices.x;
-                y = indices.y
-                rect = svg.append("rect")
-                          .attr("x", 15 + x * xspace)
-                          .attr("y", 9.5 + y * yspace)
-                          .style("fill", "#ececec");
-                synth.triggerAttack(NOTES[y]);
+              keep = true;
+              point = d3.mouse(this);
+              var indices = invert(point);
+              x = indices.x;
+              y = indices.y
+              rect = svg.append("rect")
+                        .attr("x", 15 + x * xspace)
+                        .attr("y", 9.5 + y * yspace)
+                        .style("fill", "#ececec");
+              synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
-                keep = false;
-                if ((currx - x) > 0) {
-                  rect.attr("width", Math.abs(currx - x) * xspace)
-                      .on("click", rectClick);
-                  if (selected[y].indexOf([x, currx]) === -1) {
-                    selected[y].push([x, currx]);
-                  }
+              keep = false;
+              if ((currx - x) > 0) {
+                rect.attr("width", Math.abs(currx - x) * xspace)
+                    .on("click", rectClick);
+                if (selected[y].indexOf([x, currx]) === -1) {
+                  selected[y].push([x, currx]);
                 }
-                synth.triggerRelease(NOTES[y]);
+              }
+              synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
@@ -158,10 +158,12 @@ function drawRect(selection) {
                 }
                 var inverted = invert(curr);
                 currx = inverted.x
-                if (currx >= x) {
-                  var circle_class = ".y-" + currx + " .x-" + y;
-                  d3.select(circle_class).classed("dot-selected", true);
-                }
+              }
+            })
+           .on('mouseover', function() {
+              if (keep) {
+                var circle_class = ".y-" + currx + " .x-" + y;
+                d3.select(circle_class).classed("dot-selected", true);
               }
             });
 }
