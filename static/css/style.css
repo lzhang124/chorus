@@ -65,7 +65,7 @@ body {
 }
 
 .dot-slightly-visible {
-	fill: rgba(236, 236, 236, .3);
+	fill: rgba(236, 236, 236, .2);
 }
 
 .selected-song a {
