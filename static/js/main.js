@@ -90,8 +90,8 @@ function drawRect(selection) {
   var keep = false;
   var rect, x, y, point, currx;
 
-  selection.on('mousedown', function() { 
-                keep = true; 
+  selection.on('mousedown', function() {
+                keep = true;
                 point = d3.mouse(this);
                 var indices = invert(point);
                 x = indices.x;
@@ -101,8 +101,8 @@ function drawRect(selection) {
                           .attr("y", 5 + y * yspace)
                           .style("fill", "#ececec");
             })
-           .on('mouseup', function() { 
-                keep = false; 
+           .on('mouseup', function() {
+                keep = false;
                 if (currx) {
                   rect.attr("width", Math.abs(currx - x) * xspace);
                 }
@@ -178,7 +178,8 @@ function playSong(enc_measures, notes) {
   playMeasure(notes);
 }
 
-function playCurrentMeasure() {
+function playMeasureHandler() {
+  console.log(selected);
   playMeasure(selected);
 }
 
