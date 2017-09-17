@@ -291,6 +291,11 @@ function drawCantEdit(id, selected) {
 function drawExisting(encMeasures) {
   svg.selectAll(".measures")
     .remove()
+  d3.selectAll("div.half-width")
+    .append("svg")
+    .attr("height", HEIGHT)
+    .attr("width", WIDTH/2);
+
   for (var i = 0; i < encMeasures.length; i++) {
     console.log(encMeasures);
     var div = d3.select("#lines")
