@@ -3,6 +3,9 @@ var N_COLS = 16
 
 var WIDTH = 555;
 var HEIGHT = 755;
+var R = 10;
+var XSPACE = 35;
+var YSPACE = 30;
 
 var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
              'D4', 'C#4', 'C4', 'B3', 'A#3', 'A3', 'G#3', 'G3', 'F#3', 'F3',
@@ -71,18 +74,14 @@ for (var i = 0 ; i < 25; i++) {
 
 var data = [];
 
-var r = 10;
-var xspace = 35;
-var yspace = 30;
-
 for (var i = 0; i < 16; i++) {
   data.push([]);
   for (var j = 0; j < 25; j ++) {
     data[i].push({
       col: i,
       row: j,
-      x: 15 + i*xspace,
-      y: 20 + j*yspace
+      x: 15 + i*XSPACE,
+      y: 20 + j*YSPACE
     });
   }
 }
@@ -102,7 +101,7 @@ var dots = cols.selectAll(".dot")
                .classed("dot", true)
                .attr("cx", function(d) { return d.x; })
                .attr("cy", function(d) { return d.y; })
-               .attr("r", r)
+               .attr("r", R)
                .on('mouseover', dotMouseover)
                .on('mouseout', dotMouseout);
 
@@ -120,8 +119,8 @@ function dotMouseout(d) {
 function invert(point) {
   var x = point[0],
       y = point[1];
-  var x_adj = Math.max(Math.round((x - 15) / xspace), 0);
-  var y_adj = Math.max(Math.round((y - 20) / yspace), 0);
+  var x_adj = Math.max(Math.round((x - 15) / XSPACE), 0);
+  var y_adj = Math.max(Math.round((y - 20) / YSPACE), 0);
   if (x_adj > 15) {
     x_adj = 15;
   }
@@ -139,8 +138,8 @@ function drawRect(selection) {
               x = indices.x;
               y = indices.y
               rect = svg.append("rect")
-                        .attr("x", 5 + x * xspace)
-                        .attr("y", 9.5 + y * yspace)
+                        .attr("x", 5 + x * XSPACE)
+                        .attr("y", 9.5 + y * YSPACE)
                         .attr("rx", 10)
                         .attr("ry", 10)
                         .style("fill", "#ececec");
@@ -156,7 +155,7 @@ function drawRect(selection) {
                   var inverted = invert(d3.mouse(this));
                   currx = inverted.x;
                   if (rect) {
-                    rect.attr("width", Math.abs(currx - x) * xspace + 20)
+                    rect.attr("width", Math.abs(currx - x) * XSPACE + 20)
                         .on("mousedown", rectClick);
                   }
                   var range = [Math.min(x, currx), Math.max(x, currx)];
@@ -178,10 +177,10 @@ function drawRect(selection) {
                 var curr = d3.mouse(this);
                 var inverted = invert(curr);
                 currx = inverted.x
-                rect.attr("width", Math.abs(currx - x) * xspace + 20)
+                rect.attr("width", Math.abs(currx - x) * XSPACE + 20)
                     .attr("height", r*2 + 1);
                 if (curr[0] - point[0] < 0) {
-                  rect.attr("x", 5 + currx * xspace);
+                  rect.attr("x", 5 + currx * XSPACE);
                 }
                 if (currx !== x) {
                   var circle_class = ".y-" + currx + " .x-" + y;
@@ -237,8 +236,8 @@ function drawCantEdit(id, selected) {
         data[i].push({
           col: i,
           row: j,
-          x: 15 + i*xspace,
-          y: 20 + j*yspace,
+          x: 15 + i*XSPACE,
+          y: 20 + j*YSPACE,
           selected: false
         });
       }
@@ -282,9 +281,9 @@ function drawCantEdit(id, selected) {
     for (var i = 0; i < rects.length; i++) {
         currRect = rects[i];
         rect = svg.append("rect")
-          .attr("x", 5 + currRect.start * xspace)
-          .attr("y", 9.5 + currRect.row * yspace)
-          .attr("width", Math.abs(currRect.end - currRect.start) * xspace + 20)
+          .attr("x", 5 + currRect.start * XSPACE)
+          .attr("y", 9.5 + currRect.row * YSPACE)
+          .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 20)
           .attr("height", 2*r + 1)
           .attr("rx", 10)
           .attr("ry", 10)
