@@ -20,7 +20,7 @@ def get_random():
     )
 
 @app.route("/api/song")
-def get_song():
+def get_song_with_id():
     song_id = request.args.get("songId")
     output = get_song_by_id(song_id)
     return jsonify(info=output)
