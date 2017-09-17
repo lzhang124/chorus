@@ -33,7 +33,7 @@ def get_song(ip):
     user_contributed = db['users'].find_one({'ip': ip})["contributed"]
     if len(user_contributed) == 0:
         return ("", [])
-    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if str(song['_id']) not in user_contributed.values()]
+    song_id_measures = [(song['_id'], song['measures']) for song in db['songs'].find({}) if str(song['_id']) not in user_contributed.keys()]
     valid_song_ids = []
     id_to_measure = {}
     for song in song_id_measures:
@@ -45,6 +45,10 @@ def get_song(ip):
     to_return = id_to_measure[choice]
     choice = str(choice)
     return (choice, to_return)
+
+def get_song_by_id(song_id):
+    song = db['songs'].find_one({'_id': ObjectId(str(song_id))})
+    return song['measures']
 
 def auth(ip):
     exists = db['users'].find_one({
