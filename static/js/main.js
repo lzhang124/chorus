@@ -14,6 +14,8 @@ var NOTES = ['C5', 'B4', 'A#4', 'A4', 'G#4', 'G4', 'F#4', 'F4', 'E4', 'D#4',
 
 var songId = "";
 var encMeasures = 0;
+// FOR PLAYING
+var synth = new Tone.PolySynth().toMaster()
 
 function getSong() {
   $.get({
@@ -100,6 +102,7 @@ function dotClick(d, i) {
   var selectIndex = selected[d.row].indexOf([d.col, d.col + 1]);
   if (selectIndex === -1) {
     selected[d.row].push([d.col, d.col + 1]);
+    synth.triggerAttackRelease(NOTES[i], '4n');
   } else {
     selected[d.row].splice(selectIndex, 1);
   }
@@ -159,7 +162,6 @@ function drawRect(selection) {
 // MUSIC STUFF
 /////////////////////////////////////////////////
 
-var synth = new Tone.PolySynth().toMaster()
 
 zip = rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
 
@@ -196,6 +198,21 @@ function decode(encNotes) {
 }
 
 function playMeasure(notes) {
+  Tone.Transport.clear();
+  for (var i = 0; i < notes.length; i++) {
+    for (var j = 0; j < notes[i].length; j++) {
+      let start = notes[i][j][0];
+      let end = notes[i][j][1];
+      let duration = end - start;
+      // debugger;
+      Tone.Transport.schedule(function(time) {
+        // debugger;
+        synth.triggerAttackRelease(NOTES[i], '8n * ' + duration.toString(), time);
+      }, '+8n * ' + start.toString());
+    }
+  }
+  Tone.Transport.start('+0.01');
+  /*
   for (var i = 0; i < notes.length; i++) {
     let a = [];
     for (var j = 0; j < notes[i].length; j++) {
@@ -203,7 +220,7 @@ function playMeasure(notes) {
     }
     let temp = (i + 1).toString();
     synth.triggerAttackRelease(a, '8n', ' + (8n * ' + temp + ')');
-  }
+  }*/
 }
 
 function playSong(encMeasures, notes) {
