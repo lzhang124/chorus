@@ -127,8 +127,10 @@ function drawRect(selection) {
               x = indices.x;
               y = indices.y
               rect = svg.append("rect")
-                        .attr("x", 15 + x * xspace)
+                        .attr("x", 5 + x * xspace)
                         .attr("y", 9.5 + y * yspace)
+                        .attr("rx", 10)
+                        .attr("ry", 10)
                         .style("fill", "#ececec");
               if (!deletedRect) {
                 var circle = d3.select(".y-" + x + " .x-" + y);
@@ -142,7 +144,7 @@ function drawRect(selection) {
                   var inverted = invert(d3.mouse(this));
                   currx = inverted.x;
                   if (rect) {
-                    rect.attr("width", Math.abs(currx - x) * xspace)
+                    rect.attr("width", Math.abs(currx - x) * xspace + 20)
                         .on("mousedown", rectClick);
                   }
                   var range = [Math.min(x, currx), Math.max(x, currx)];
@@ -160,14 +162,14 @@ function drawRect(selection) {
                 synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
-              if (keep) {
+              if (keep && !deletedRect) {
                 var curr = d3.mouse(this);
                 var inverted = invert(curr);
                 currx = inverted.x
-                rect.attr("width", Math.abs(currx - x) * xspace)
+                rect.attr("width", Math.abs(currx - x) * xspace + 20)
                     .attr("height", r*2 + 1);
                 if (curr[0] - point[0] < 0) {
-                  rect.attr("x", 15 + currx * xspace);
+                  rect.attr("x", 5 + currx * xspace);
                 }
                 if (currx !== x) {
                   var circle_class = ".y-" + currx + " .x-" + y;
@@ -192,7 +194,7 @@ function clearNotes() {
 
 function rectClick() {
   var inverted = invert(d3.mouse(this));
-  var bar = selected[inverted.y].filter((elem) => { return inverted.x >= elem[0] && inverted.x < elem[1]; });
+  var bar = selected[inverted.y].filter((elem) => { return inverted.x >= elem[0] && inverted.x <= elem[1]; });
 
   if (bar.length > 0) {
     bar = bar[0];
