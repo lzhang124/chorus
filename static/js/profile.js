@@ -8,6 +8,7 @@ var map = new Datamap({element: document.getElementById('map'), scope: 'world',
                       }, geographyConfig: {
                         borderColor: '#515152',
                         popupOnHover: false,
+                        highlightFillColor: '#26a69a'
                       }});
 var encMeasures;
 var N_ROWS = 25
@@ -50,6 +51,7 @@ $('.song').click(function(ev) {
           }
           draw(all_data);
           encMeasures = all_data;
+          document.getElementById('playSong').hidden = false;
         }
     });
 });
@@ -168,7 +170,7 @@ function renderView (resp) {
     for (i = 0; i < locations.length; i++) {
         if (locations[i][0] - resp.self[0] == 0 && locations[i][1] - resp.self[1] == 0) {
             continue;
-        } 
+        }
         formatted.push({
             origin: {
                 latitude: locations[i][0],
