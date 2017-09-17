@@ -136,7 +136,8 @@ function drawRect(selection) {
            .on('mouseup', function() {
                 keep = false;
                 if (currx) {
-                  rect.attr("width", Math.abs(currx - x) * xspace);
+                  rect.attr("width", Math.abs(currx - x) * xspace)
+                      .on("click", rectClick);
                   if (selected[y].indexOf([x, currx + 1]) === -1) {
                     selected[y].push([x, currx + 1]);
                   }
@@ -157,8 +158,32 @@ function drawRect(selection) {
             });
 }
 
+
 function clearNotes() {
   // TODO
+}
+
+function rectClick() {
+  var inverted = invert(d3.mouse(this));
+  var bar = selected[inverted.x].filter((elem) => { return inverted.x >= elem[0] && inverted.y < elem[1]; });
+
+  if (bar.length > 0) {
+    bar = bar[0];
+    var first = [bar[0], inverted.x];
+
+    // if the clicked element was the first element
+    if (bar[0] == inverted.x) {
+      var circle_class = ".y-" + inverted.x + " .x-" + inverted.y;
+      var rect = d3.select(this);
+      console.log(rect);
+      var current_start = rect.attr("x");
+      var current_width = rect.attr("width");
+      d3.select(circle_class).classed("dot-selected", false);
+      rect.attr("width", current_width - xspace)
+                     .attr("x", current_start + xspace);
+
+    } 
+  }
 }
 
 /////////////////////////////////////////////////
