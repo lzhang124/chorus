@@ -20,8 +20,6 @@ baba = [[[0,0],[0,0],[0,0],[3840,3840],[0,0],[12440,12440],[0,0],[96,96],[0,0],[
 # db['songs'].insert_many(songs)
 MEASURE3 = MEASURE1 + MEASURE2
 
-MEASURE4 = MEASURE1 + MEASURE2 + twinkle
-
 coords = [(39.0, 116.0), (-34.0, -58.0), (6.0, 3.0), (36.0, -119.0), (-33.0, 151.0)]
 
 users = []
@@ -34,8 +32,6 @@ users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 song = db['songs'].insert_one({"measures": MEASURE3, "locations": [coords[1], coords[2]], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 
-song = db['songs'].insert_one({"measures": MEASURE4, "locations": [coords[1], coords[2], coords[3]], "num_measures": 1}).inserted_id
-users.append({"user": "user" + '2', "contributed": {str(song): "1"}})
 #TODO: ADD DIFFERENT COORDS FOR AL THE BELOW
 song = db['songs'].insert_one({"measures": twinkle, "locations": [coords[0],], "num_measures": 1}).inserted_id
 users.append({"user": "user" + '3', "contributed": {str(song): "1"}})
