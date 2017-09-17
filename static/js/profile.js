@@ -78,11 +78,11 @@ function draw(encMeasures) {
 }
 
 function drawCantEdit(id, selected) {
-    var HEIGHT = 200,
-        WIDTH = 120,
-        R = 3,
-        XSPACE = 7,
-        YSPACE = 7;
+    var HEIGHT = 280,
+        WIDTH = 180,
+        R = 4,
+        XSPACE = 10,
+        YSPACE = 10;
 
     var svg = d3.select(id)
                 .append("svg")
@@ -138,8 +138,8 @@ function drawCantEdit(id, selected) {
     for (var i = 0; i < rects.length; i++) {
         currRect = rects[i];
         rect = svg.append("rect")
-          .attr("x", 12.5 + currRect.start * XSPACE)
-          .attr("y", 17 + currRect.row * YSPACE)
+          .attr("x", 12 + currRect.start * XSPACE)
+          .attr("y", 16.5 + currRect.row * YSPACE)
           .attr("width", Math.abs(currRect.end - currRect.start) * XSPACE + 2*R)
           .attr("height", 2*R + 1)
           .attr("rx", R)
