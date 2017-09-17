@@ -215,6 +215,7 @@ function encode(notes) {
 function decode(encNotes) {
   var notes = [];
   for (i = 0; i < N_ROWS; i++) {
+    debugger;
     startBinary = encNotes[i][0].toString(2);
     endBinary = encNotes[i][1].toString(2);
     startIndices = [];
@@ -230,7 +231,7 @@ function decode(encNotes) {
   return notes;
 }
 
-function playMeasure(notes) {
+function playMeasure(notes, offset) {
   Tone.Transport.clear();
   for (var i = 0; i < notes.length; i++) {
     for (var j = 0; j < notes[i].length; j++) {
@@ -240,21 +241,28 @@ function playMeasure(notes) {
       let note = NOTES[i];
       Tone.Transport.schedule(function(time) {
         synth.triggerAttackRelease(note, '8n * ' + duration.toString(), time);
-      }, '+8n * ' + start.toString());
+      }, '+8n * ' + start.toString() + offset);
     }
   }
   Tone.Transport.start('+0.01');
 }
 
 function playSong(encMeasures, notes) {
+  debugger;
+  var offset = 0;
   for (i = 0; i < encMeasures.length; i++) {
-    playMeasure(decode(encMeasures[i]));
+    var result = " + 0";
+    if (i != 0) {
+        result = "+ " + "(8n * " + offset.toString() + ")";
+    }
+    playMeasure(decode(encMeasures[i]), result);
+    offset += N_COLS
   }
-  playMeasure(notes);
+  playMeasure(notes, "+ " + "(8n * " + offset.toString() + ")");
 }
 
 function playMeasureHandler() {
-  playMeasure(selected);
+  playMeasure(selected, "");
 }
 
 function playSongHandler() {
