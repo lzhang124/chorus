@@ -39,7 +39,7 @@ var deletedRect = false;
 
 function indexOfCustom (parentArray, searchElement) {
     for ( var i = 0; i < parentArray.length; i++ ) {
-        if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] ) {
+        if ( parentArray[i][0] == searchElement[0] || parentArray[i][1] == searchElement[1] ) {
             return i;
         }
     }
@@ -130,8 +130,10 @@ function drawRect(selection) {
                         .attr("x", 15 + x * xspace)
                         .attr("y", 9.5 + y * yspace)
                         .style("fill", "#ececec");
-              var circle = d3.select(".y-" + x + " .x-" + y);
-              circle.classed("dot-selected", !circle.classed("dot-selected"));
+              if (!deletedRect) {
+                var circle = d3.select(".y-" + x + " .x-" + y);
+                circle.classed("dot-selected", !circle.classed("dot-selected"));
+              }
               synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
@@ -149,7 +151,7 @@ function drawRect(selection) {
                   if (index === -1) {
                     selected[y].push(range);
                   } else if (currx === x) {
-                    //delete if clicking on a circle that is already filled
+                    // delete if clicking on a circle that is already filled
                     selected[y].splice(index, 1);
                   }
                 } else {
