@@ -139,33 +139,27 @@ function drawRect(selection) {
             })
            .on('mouseup', function() {
               keep = false;
-              if ((currx - x) > 0) {
-                rect.attr("width", Math.abs(currx - x) * xspace)
-                    .on("click", rectClick);
-                if (selected[y].indexOf([x, currx]) === -1) {
-                  selected[y].push([x, currx]);
-                }
+              rect.attr("width", Math.abs(currx - x) * xspace)
+                  .on("click", rectClick);
+              if (selected[y].indexOf([x, currx]) === -1) {
+                selected[y].push([x, currx]);
               }
               synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep) {
                 var curr = d3.mouse(this);
-                rect.attr("width", Math.abs(curr[0] - point[0]))
-                    .attr("height", r*2 + 1);
-                if (curr[0] - point[0] < 0) {
-                  rect.attr("x", curr[0]);
-                }
                 var inverted = invert(curr);
                 currx = inverted.x
-              }
-            })
-           .on('mouseover', function() {
-              if (keep) {
+                rect.attr("width", Math.abs(currx - x) * xspace)
+                    .attr("height", r*2 + 1);
+                if (curr[0] - point[0] < 0) {
+                  rect.attr("x", 15 + currx * xspace);
+                }
                 var circle_class = ".y-" + currx + " .x-" + y;
                 d3.select(circle_class).classed("dot-selected", true);
               }
-            });
+            })
 }
 
 
