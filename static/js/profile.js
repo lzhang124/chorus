@@ -1,7 +1,6 @@
 /////////////////////////////////////////////////
 // Profile Stuff
 /////////////////////////////////////////////////
-
 $('.song').click(function(ev) {
     songId = $(this).attr('data');
     data = {
@@ -141,7 +140,6 @@ function drawCantEdit(id, selected) {
 var map = new Datamap({element: document.getElementById('map'), scope: 'world'});
 
 function renderView (resp) {
-
     var locations = resp.locations
     var formatted = []
     for (i = 0; i < locations.length; i++) {
