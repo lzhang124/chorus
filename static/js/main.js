@@ -135,8 +135,8 @@ function drawRect(selection) {
               if (!deletedRect) {
                 var circle = d3.select(".y-" + x + " .x-" + y);
                 circle.classed("dot-selected", !circle.classed("dot-selected"));
+                synth.triggerAttack(NOTES[y]);
               }
-              synth.triggerAttack(NOTES[y]);
             })
            .on('mouseup', function() {
                 keep = false;
@@ -156,10 +156,10 @@ function drawRect(selection) {
                     // delete if clicking on a circle that is already filled
                     selected[y].splice(index, 1);
                   }
+                  synth.triggerRelease(NOTES[y]);
                 } else {
                   deletedRect = false;
                 }
-                synth.triggerRelease(NOTES[y]);
             })
            .on('mousemove', function() {
               if (keep && !deletedRect) {
