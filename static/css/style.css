@@ -67,3 +67,7 @@ body {
 .dot-slightly-visible {
 	fill: rgba(236, 236, 236, .3);
 }
+
+.selected-song a {
+	color: #26a69a !important;
+}
