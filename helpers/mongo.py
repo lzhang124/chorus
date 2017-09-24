@@ -8,8 +8,13 @@ from bson.objectid import ObjectId
 from helpers.utils import ip_to_location
 import random
 
-client = MongoClient('localhost', 27017)
-db = client['app']
+# if local:
+    # client = MongoClient('localhost', 27017)
+    # db = client['app']
+# elif production:
+MONGO_URL = os.environ.get('MONGOHQ_URL')
+client = MongoClient(MONGO_URL)
+db = client.app77603818
 
 def update_song(ip, measure, song_id):
     coords = ip_to_location(ip)
