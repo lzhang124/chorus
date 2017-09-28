@@ -13,9 +13,11 @@ import os
     # client = MongoClient('localhost', 27017)
     # db = client['app']
 # elif production:
-MONGO_URL = os.environ.get('MONGOHQ_URL')
+# MONGO_URL = os.environ.get('MONGOHQ_URL')
+MONGO_URL = os.environ.get('MONGODB_URI')
 client = MongoClient(MONGO_URL)
-db = client.app77603818
+# db = client.app77603818
+db = client.get_default_database()
 
 def update_song(ip, measure, song_id):
     coords = ip_to_location(ip)
