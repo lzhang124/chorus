@@ -9,3 +9,6 @@ Jump into contributing your musical style and follow the songs you're a part of 
 `mongod` (may need to use sudo)
 `python3 app.py` (export FLASK_APP="app.py"; flask run)
 Navigate to localhost:5000
+
+## Deployed version
+check out the app! https://hackmit-chorus.herokuapp.com/
